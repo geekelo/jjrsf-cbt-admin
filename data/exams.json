@@ -1,0 +1,177 @@
+{
+    "clacbt_exams": [
+      {
+        "id": 1,
+        "name": "Mathematics Exam",
+        "duration": 90,
+        "start_time": "2025-03-20T09:00:00Z",
+        "end_time": "2025-03-20T10:30:00Z",
+        "questions": [
+          {
+            "id": 101,
+            "question": "What is 5 + 3?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "6", "correct": false},
+              {"option": "B", "answer_text": "7", "correct": false},
+              {"option": "C", "answer_text": "8", "correct": true},
+              {"option": "D", "answer_text": "9", "correct": false},
+              {"option": "E", "answer_text": "10", "correct": false}
+            ]
+          },
+          {
+            "id": 102,
+            "question": "What is the square root of 16?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "2", "correct": false},
+              {"option": "B", "answer_text": "3", "correct": false},
+              {"option": "C", "answer_text": "4", "correct": true},
+              {"option": "D", "answer_text": "5", "correct": false},
+              {"option": "E", "answer_text": "6", "correct": false}
+            ]
+          },
+          {
+            "id": 103,
+            "question": "What is 10 divided by 2?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "2", "correct": false},
+              {"option": "B", "answer_text": "4", "correct": false},
+              {"option": "C", "answer_text": "5", "correct": true},
+              {"option": "D", "answer_text": "6", "correct": false},
+              {"option": "E", "answer_text": "8", "correct": false}
+            ]
+          }
+        ],
+        "candidates": [
+          {"email": "candidate1@example.com", "score": 15},
+          {"email": "candidate2@example.com", "score": 10}
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Science Exam",
+        "duration": 60,
+        "start_time": "2025-03-21T11:00:00Z",
+        "end_time": "2025-03-21T12:00:00Z",
+        "questions": [
+          {
+            "id": 201,
+            "question": "What planet is known as the Red Planet?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Earth", "correct": false},
+              {"option": "B", "answer_text": "Mars", "correct": true},
+              {"option": "C", "answer_text": "Jupiter", "correct": false},
+              {"option": "D", "answer_text": "Saturn", "correct": false},
+              {"option": "E", "answer_text": "Venus", "correct": false}
+            ]
+          },
+          {
+            "id": 202,
+            "question": "What gas do plants absorb from the atmosphere?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Oxygen", "correct": false},
+              {"option": "B", "answer_text": "Nitrogen", "correct": false},
+              {"option": "C", "answer_text": "Carbon Dioxide", "correct": true},
+              {"option": "D", "answer_text": "Hydrogen", "correct": false},
+              {"option": "E", "answer_text": "Methane", "correct": false}
+            ]
+          },
+          {
+            "id": 203,
+            "question": "What is the chemical symbol for water?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "O2", "correct": false},
+              {"option": "B", "answer_text": "H2O", "correct": true},
+              {"option": "C", "answer_text": "CO2", "correct": false},
+              {"option": "D", "answer_text": "HO", "correct": false},
+              {"option": "E", "answer_text": "H2", "correct": false}
+            ]
+          }
+        ],
+        "candidates": [
+          {"email": "candidate3@example.com", "score": 20},
+          {"email": "candidate4@example.com", "score": 10}
+        ]
+      },
+      {
+        "id": 3,
+        "name": "English Exam",
+        "duration": 120,
+        "start_time": "2025-03-22T13:00:00Z",
+        "end_time": "2025-03-22T15:00:00Z",
+        "questions": [
+          {
+            "id": 301,
+            "question": "What is the opposite of 'big'?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Large", "correct": false},
+              {"option": "B", "answer_text": "Tiny", "correct": true},
+              {"option": "C", "answer_text": "Huge", "correct": false},
+              {"option": "D", "answer_text": "Massive", "correct": false},
+              {"option": "E", "answer_text": "Giant", "correct": false}
+            ]
+          },
+          {
+            "id": 302,
+            "question": "Which word is a noun?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Run", "correct": false},
+              {"option": "B", "answer_text": "Beautiful", "correct": false},
+              {"option": "C", "answer_text": "Table", "correct": true},
+              {"option": "D", "answer_text": "Quickly", "correct": false},
+              {"option": "E", "answer_text": "Jump", "correct": false}
+            ]
+          },
+          {
+            "id": 303,
+            "question": "What is the plural of 'child'?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Childs", "correct": false},
+              {"option": "B", "answer_text": "Children", "correct": true},
+              {"option": "C", "answer_text": "Childes", "correct": false},
+              {"option": "D", "answer_text": "Childen", "correct": false},
+              {"option": "E", "answer_text": "Childies", "correct": false}
+            ]
+          }
+        ],
+        "candidates": [
+          {"email": "candidate5@example.com", "score": 25},
+          {"email": "candidate6@example.com", "score": 15}
+        ]
+      },
+      {
+        "id": 4,
+        "name": "History Exam",
+        "duration": 75,
+        "start_time": "2025-03-23T14:00:00Z",
+        "end_time": "2025-03-23T15:15:00Z",
+        "questions": [
+          {
+            "id": 401,
+            "question": "Who was the first president of the United States?",
+            "mark": 5,
+            "answers": [
+              {"option": "A", "answer_text": "Abraham Lincoln", "correct": false},
+              {"option": "B", "answer_text": "George Washington", "correct": true},
+              {"option": "C", "answer_text": "Thomas Jefferson", "correct": false},
+              {"option": "D", "answer_text": "John Adams", "correct": false},
+              {"option": "E", "answer_text": "James Madison", "correct": false}
+            ]
+          }
+        ],
+        "candidates": [
+          {"email": "candidate7@example.com", "score": 30},
+          {"email": "candidate8@example.com", "score": 20}
+        ]
+      }
+    ]
+  }
+  
