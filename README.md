@@ -1,72 +1,91 @@
-# Getting Started with Create React App
+# CBT Admin Panel
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+The CBT (Computer-Based Test) Admin Panel is a web-based interface that allows administrators to create and manage timed exams, add questions and answers, register candidates, and view test results. The platform ensures efficient exam management with real-time monitoring and reporting features.
 
-## Available Scripts
+## Features
+- **Exam Management:** Create and schedule timed exams
+- **Question Bank:** Add, update, and delete questions and answers
+- **Candidate Management:** Register and manage candidates
+- **Result Tracking:** View and analyze candidate performance
+- **Real-Time Monitoring:** Track ongoing exams and submissions
+- **Role-Based Access:** Secure admin authentication
 
-In the project directory, you can run:
+## Installation
+### Prerequisites
+Ensure you have the following installed:
+- Node.js (>= 16.x)
+- npm or yarn
+- PostgreSQL (if using a database backend)
 
-### `npm start`
+### Setup
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo/cbt-admin-panel.git
+   cd cbt-admin-panel
+   ```
+2. Install dependencies:
+   ```sh
+   npm install  # or yarn install
+   ```
+3. Start the development server:
+   ```sh
+   npm start  # or yarn start
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Deployment
+### Docker
+1. Build and run the container:
+   ```sh
+   docker-compose up --build
+   ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Vercel/Netlify
+1. Deploy using Vercel:
+   ```sh
+   vercel deploy
+   ```
+2. Deploy using Netlify:
+   ```sh
+   netlify deploy
+   ```
 
-### `npm test`
+## Environment Variables
+Create a `.env` file and configure the following:
+```
+REACT_APP_API_BASE_URL=https://api.cbt-platform.com
+REACT_APP_SOCKET_URL=wss://api.cbt-platform.com/socket
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## API Endpoints
+### Exams
+- `POST /api/v1/exams` - Create a new exam
+- `GET /api/v1/exams` - Retrieve all exams
+- `GET /api/v1/exams/:id` - View a specific exam
+- `PUT /api/v1/exams/:id` - Update exam details
+- `DELETE /api/v1/exams/:id` - Remove an exam
 
-### `npm run build`
+### Questions
+- `POST /api/v1/questions` - Add a new question
+- `GET /api/v1/questions` - Fetch all questions
+- `PUT /api/v1/questions/:id` - Update a question
+- `DELETE /api/v1/questions/:id` - Remove a question
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Candidates
+- `POST /api/v1/candidates` - Register a candidate
+- `GET /api/v1/candidates` - Retrieve candidate list
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Results
+- `GET /api/v1/results` - View all results
+- `GET /api/v1/results/:candidate_id` - View results for a specific candidate
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Contributing
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature-name`)
+3. Commit changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature-name`)
+5. Create a Pull Request
 
-### `npm run eject`
+## License
+This project is licensed under the MIT License.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# jjrsf-cbt-admin
-# jjrsf-cbt-admin
