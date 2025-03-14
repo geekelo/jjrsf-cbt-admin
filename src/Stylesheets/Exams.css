@@ -1,75 +1,132 @@
+/* Exams Container */
 .exams-container {
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.12);
   text-align: center;
 }
+.exambox{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 0 30px;
+}
+/* Title */
+.exams-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #442e79;
+  margin-bottom: 25px;
+}
+.exam-duration {
+  font-size: 18px;
+  font-weight: bold;
+  color: #131313; /* Highlight duration in yellow */
+}
 
+.exam-time {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Exam List */
 .exam-list {
   list-style: none;
   padding: 0;
-}
-
-.exam-item {
-  background: #f4f4f4;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.add-exam-btn {
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.add-exam-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Modal Styling */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   justify-content: center;
-  align-items: center;
 }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.close-btn {
-  margin-top: 10px;
-  padding: 8px 15px;
-  background: #d9534f;
-  color: white;
-  border: none;
+/* Exam Item Card */
+.exam-item {
+  background: #f3effc;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  text-align: left;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 3px solid #452e7917;
   cursor: pointer;
-  border-radius: 5px;
 }
 
-.close-btn:hover {
-  background: #c9302c;
+.exam-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 15px rgba(68, 46, 121, 0.2);
 }
 
+/* Exam Name */
+.exam-item strong {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #442e79;
+  margin-bottom: 8px;
+}
+
+/* Exam Duration */
+.exam-item span {
+  font-size: 15px;
+  color: #555;
+}
+
+/* View Icon */
 .view-icon {
+  position: absolute;
+  right: 15px;
+  top: 18px;
+  color: #442e79;
   cursor: pointer;
-  margin-left: 10px;
-  color: #007bff;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .view-icon:hover {
-  color: #0056b3;
+  color: #2f1e57;
+  transform: scale(1.1);
+}
+
+/* Add Exam Button */
+.add-exam-btn {
+  margin-top: 25px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #442e79;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:5px
+}
+
+.add-exam-btn:hover {
+  background: #131313;
+  transform: scale(1.05);
+}
+.exam-time-label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .exams-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .exam-item {
+    width: 100%;
+  }
 }
