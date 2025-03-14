@@ -5,7 +5,7 @@ import Exams from "./components/Exams";
 import ExamDetails from "./components/Exams/ExamDetails"; // Import ExamDetails
 import Login from "./components/Basics/Login";
 import Footer from "./components/Basics/Footer";
-import "./App.css";
+import Layout from "./components/Basics/Layout";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,8 +18,10 @@ function App() {
 
   return (
     <Router>
+      <Layout>
       <div className="App">
-        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        
+    
 
         <main className="content">
           <Routes>
@@ -35,8 +37,9 @@ function App() {
           </Routes>
         </main>
 
-        <Footer />
+       
       </div>
+      </Layout>
     </Router>
   );
 }
