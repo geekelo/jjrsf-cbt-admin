@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, Plus } from "lucide-react";
+import { Eye, Plus, User2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import data from "../../data/exams.json";
 import ExamForm from "./ExamForm";
@@ -48,6 +48,7 @@ const Exams = () => {
            </p>
          </div>
          <Eye className="view-icon" size={24} onClick={() => navigate(`/exam/${exam.id}`)} />
+          <User2 className="viewuser-icon" size={24} onClick={() => navigate(`/user`)} />
        </li>
        
         

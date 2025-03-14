@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { HelpCircle, User } from "lucide-react";
-import '../../Stylesheets/Nav.css'
+import "../../Stylesheets/Nav.css";
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -35,9 +35,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             </li>
           </>
         ) : (
-          <li>
-          
-          </li>
+          <li></li>
         )}
       </ul>
     </nav>

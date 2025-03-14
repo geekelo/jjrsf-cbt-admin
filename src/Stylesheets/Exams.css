@@ -20,7 +20,7 @@
   font-size: 28px;
   font-weight: bold;
   color: #442e79;
-  margin-bottom: 25px;
+ 
 }
 .exam-duration {
   font-size: 18px;
@@ -86,6 +86,14 @@
   cursor: pointer;
   transition: color 0.3s ease, transform 0.2s ease;
 }
+.viewuser-icon {
+  position: absolute;
+  right: 45px;
+  top: 18px;
+  color: #442e79;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
 
 .view-icon:hover {
   color: #2f1e57;
@@ -128,5 +136,13 @@
 
   .exam-item {
     width: 100%;
+  }
+  .exams-container h2 {
+    font-size: 24px;
+   
+  
+  }
+  .exambox{
+    padding: 0 10px;
   }
 }

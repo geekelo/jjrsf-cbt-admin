@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../../Stylesheets/examform.css'
 
 const ExamForm = ({ onClose, onSubmit }) => {
   const [newExam, setNewExam] = useState({
