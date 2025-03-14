@@ -1,24 +1,17 @@
 import React, { useState } from "react";
+import { Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import data from "../../data/exams.json";
+import ExamForm from "./ExamForm";
 
 const Exams = () => {
-  // Initial dummy exam data
   const [exams, setExams] = useState(data.clacbt_exams);
+  const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
-  const [newExam, setNewExam] = useState({ name: "", duration: "", start_time: "", end_time: "" });
-
-  // Handle input changes
-  const handleChange = (e) => {
-    setNewExam({ ...newExam, [e.target.name]: e.target.value });
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newExam.name && newExam.duration && newExam.start_time && newExam.end_time) {
-      setExams([...exams, { id: exams.length + 1, ...newExam }]);
-      setNewExam({ name: "", duration: "", start_time: "", end_time: "" });
-    }
+  const addExam = (newExam) => {
+    setExams([...exams, { id: exams.length + 1, ...newExam }]);
+    setShowForm(false);
   };
 
   return (
@@ -28,19 +21,16 @@ const Exams = () => {
         {exams.map((exam) => (
           <li key={exam.id} className="exam-item">
             <strong>{exam.name}</strong> - {exam.duration} (From {exam.start_time} to {exam.end_time})
+            <Eye className="view-icon" size={24} onClick={() => navigate(`/exam/${exam.id}`)} />
           </li>
         ))}
       </ul>
 
-      {/* Add New Exam Form */}
-      <h3>Add New Exam</h3>
-      <form onSubmit={handleSubmit} className="exam-form">
-        <input type="text" name="name" placeholder="Exam Name" value={newExam.name} onChange={handleChange} required />
-        <input type="text" name="duration" placeholder="Duration (e.g., 60 mins)" value={newExam.duration} onChange={handleChange} required />
-        <input type="text" name="start_time" placeholder="Start Time (e.g., 10:00 AM)" value={newExam.start_time} onChange={handleChange} required />
-        <input type="text" name="end_time" placeholder="End Time (e.g., 11:00 AM)" value={newExam.end_time} onChange={handleChange} required />
-        <button type="submit" className="add-exam-btn">Add Exam</button>
-      </form>
+      <button className="add-exam-btn" onClick={() => setShowForm(true)}>
+        Add New Exam
+      </button>
+
+      {showForm && <ExamForm onClose={() => setShowForm(false)} onSubmit={addExam} />}
     </div>
   );
 };
