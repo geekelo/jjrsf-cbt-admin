@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import data from "../../data/exams.json";
 
 const Exams = () => {
-  // Initial dummy exam data
   const [exams, setExams] = useState(data.clacbt_exams);
 
   const [newExam, setNewExam] = useState({ name: "", duration: "", start_time: "", end_time: "" });
