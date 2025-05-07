@@ -62,9 +62,26 @@
     cursor: pointer;
     transition: background-color 0.3s;
   }
+   .question-box{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    margin: 12px 0;
+   }
   
-  
-  
+  .question{
+    
+  background-color: #3498db;
+    font-size: 20px;
+    font-weight: 700;
+    width: 150px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+   
+  }
   .close-btn {
     background-color: #e74c3c;
     color: #fff;

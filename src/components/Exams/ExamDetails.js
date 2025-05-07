@@ -63,7 +63,15 @@ const ExamDetails = () => {
   };
 
   return (
+    <div>
+      <div className="question-box">
+       <div className="question">
+      Add Question
+    </div>
+    </div>
+   
     <div className="exams-details">
+   
       <h2 className="examdetailname">{exam.name}</h2>
       <p className="examdetailtime">⏳ Duration: {exam.duration} mins</p>
       <p className="examdetailtime">Start Time: {formatDateTime(exam.start_time)}</p>
@@ -108,6 +116,7 @@ const ExamDetails = () => {
         handleEditChange={handleEditChange}
         handleSave={handleSaveEdit}
       />
+    </div>
     </div>
   );
 };
