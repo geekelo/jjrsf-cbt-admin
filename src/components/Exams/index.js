@@ -1,10 +1,12 @@
+// src/components/Exams.jsx
+
 import React, { useEffect, useState } from "react";
 import { Eye, Plus, User2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import ExamForm from "./ExamForm";
 import "../../Stylesheets/Exams.css";
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import { fetchExams } from "../../redux/slice";
 
 const formatDateTime = (dateTime) => {
   return new Date(dateTime).toLocaleString("en-US", {
@@ -19,49 +21,14 @@ const formatDateTime = (dateTime) => {
 };
 
 const Exams = () => {
-  const [exams, setExams] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const { exams, loading, error } = useSelector((state) => state.exams);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const token = localStorage.getItem("authToken");
-        console.log("Fetching exams from:", `${API_BASE_URL}/clacbt_exams`);
-
-        const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch exams");
-        }
-
-        const data = await response.json();
-        
-        console.log("Fetched Exams:", data);
-        setExams(data);
-      } catch (error) {
-        console.error("Error fetching exams:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchExams();
-  }, []);
-
-  const handleExamAdded = (newExam) => {
-    setExams((prevExams) => [...prevExams, newExam]);
-    setShowForm(false);
-  };
+    dispatch(fetchExams());
+  }, [dispatch]);
 
   return (
     <div className="exams-container">
@@ -93,7 +60,7 @@ const Exams = () => {
         ))}
       </ul>
 
-      {showForm && <ExamForm onClose={() => setShowForm(false)} onExamAdded={handleExamAdded} />}
+      {showForm && <ExamForm onClose={() => setShowForm(false)} />}
     </div>
   );
 };
