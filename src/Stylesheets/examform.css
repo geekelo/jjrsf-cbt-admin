@@ -35,6 +35,9 @@
     flex-direction: column;
     gap: 15px;
   }
+  .exam-form label{
+    text-align: start;
+  }
   
   .exam-form input {
     padding: 10px;

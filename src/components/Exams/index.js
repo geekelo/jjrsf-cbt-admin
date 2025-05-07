@@ -46,9 +46,7 @@ const Exams = () => {
         const data = await response.json();
         
         console.log("Fetched Exams:", data);
-        console.log(exams)
         setExams(data);
-        console.log(exams)
       } catch (error) {
         console.error("Error fetching exams:", error);
         setError(error.message);
@@ -60,8 +58,8 @@ const Exams = () => {
     fetchExams();
   }, []);
 
-  const addExam = (newExam) => {
-    setExams([...exams, { id: exams.length + 1, ...newExam }]);
+  const handleExamAdded = (newExam) => {
+    setExams((prevExams) => [...prevExams, newExam]);
     setShowForm(false);
   };
 
@@ -95,7 +93,7 @@ const Exams = () => {
         ))}
       </ul>
 
-      {showForm && <ExamForm onClose={() => setShowForm(false)} onSubmit={addExam} />}
+      {showForm && <ExamForm onClose={() => setShowForm(false)} onExamAdded={handleExamAdded} />}
     </div>
   );
 };
