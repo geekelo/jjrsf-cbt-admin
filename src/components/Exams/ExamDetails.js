@@ -4,6 +4,7 @@ import { Eye, Edit } from "lucide-react"; // Import icons
 import data from "../../data/exams.json";
 import AnswerModal from "./AnswerModal";
 import EditQuestionModal from "./EditQuestionModal";
+import '../../Stylesheets/Examdetail.css'
 
 const ExamDetails = () => {
   const { id } = useParams();
@@ -15,6 +16,18 @@ const ExamDetails = () => {
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  
+const formatDateTime = (dateTime) => {
+  return new Date(dateTime).toLocaleString("en-US", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
   if (!exam) {
     return <h2>Exam not found</h2>;
   }
@@ -56,19 +69,24 @@ const ExamDetails = () => {
   };
 
   return (
-    <div className="exam-details">
-      <h2>{exam.name}</h2>
-      <p>Duration: {exam.duration}</p>
-      <p>Start Time: {exam.start_time}</p>
-      <p>End Time: {exam.end_time}</p>
+    <div className="exams-details">
+      <h2 className="examdetailname">{exam.name}</h2>
+      <p className="examdetailtime">⏳ Duration: {exam.duration} mins</p>
+      <p className="examdetailtime">Start Time:  {formatDateTime(exam.start_time)} </p>
+      <p className="examdetailtime">End Time:  {formatDateTime(exam.start_time)}</p>
 
+      
+      <ul className="question-list">
       <h3>Questions</h3>
-      <ul>
         {exam.questions.map((question) => (
           <li key={question.id} className="question-item">
+            <div>
             {question.question} (Mark: {question.mark})
+            </div>
+            <div>
             <Eye className="icon" onClick={() => openAnswerModal(question)} />
             <Edit className="icon" onClick={() => openEditModal(question)} />
+              </div>
           </li>
         ))}
       </ul>
