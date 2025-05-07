@@ -1,0 +1,115 @@
+/* Overlay covers entire screen with dark transparent background */
+.add-question-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Modal container */
+  .add-question-modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.25s ease-out;
+  }
+  
+  /* Modal title */
+  .add-question-title {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 22px;
+    color: #333333;
+    text-align: center;
+  }
+  
+  /* Labels */
+  .add-question-label {
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 16px;
+    font-weight: 600;
+    color: #333333;
+  }
+  
+  /* Textarea */
+  .add-question-textarea {
+    width: 95%;
+    min-height: 90px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    resize: vertical;
+    font-size: 14px;
+  }
+  
+  /* Input */
+  .add-question-input {
+    width: 95%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+  }
+  
+  /* Action buttons container */
+  .add-question-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  /* Save button */
+  .add-question-save-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #4caf50;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-question-save-btn:hover {
+    background-color: #45a047;
+  }
+  
+  /* Cancel button */
+  .add-question-cancel-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #e0e0e0;
+    color: #333333;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-question-cancel-btn:hover {
+    background-color: #d5d5d5;
+  }
+  
+  /* Optional fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
