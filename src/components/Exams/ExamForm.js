@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Stylesheets/examform.css";
-import { createExam } from "../../redux/slice";
+import { createExam } from "../../redux/slice/exam";
 
 const ExamForm = ({ onClose }) => {
   const dispatch = useDispatch();

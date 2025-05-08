@@ -1,14 +1,11 @@
+// features/exams/examsSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-// Helper function to get the auth token
 const getAuthToken = () => localStorage.getItem("authToken");
 
 // --- Thunks ---
 
-// Fetch exams
 export const fetchExams = createAsyncThunk("exams/fetchExams", async (_, { rejectWithValue }) => {
   try {
     const token = getAuthToken();
@@ -22,7 +19,6 @@ export const fetchExams = createAsyncThunk("exams/fetchExams", async (_, { rejec
   }
 });
 
-// Create an exam
 export const createExam = createAsyncThunk("exams/createExam", async (examData, { rejectWithValue }) => {
   try {
     const token = getAuthToken();
@@ -48,32 +44,6 @@ export const createExam = createAsyncThunk("exams/createExam", async (examData, 
     return rejectWithValue(err.message);
   }
 });
-// Create a question for a specific exam
-export const createClacbtQuestion = createAsyncThunk(
-  "exams/createClacbtQuestion",
-  async ({ examId, questionData, token }, { rejectWithValue }) => {
-    try {
-
-
-      const authToken = token || getAuthToken(); // fallback if token not passed
-
-      const response = await axios.post(
-        `${API_BASE_URL}/clacbt_exams/${examId}/clacbt_questions?exam_id=${examId}`,
-        { clacbt_question: questionData },
-        { headers: { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" } }
-      );
-
-
-
-      return { examId, question: response.data };
-    } catch (err) {
-      console.error("[createClacbtQuestion] Error:", err.response ? err.response.data : err.message);
-      return rejectWithValue(err.response?.data || err.message);
-    }
-  }
-);
-
-
 
 // --- Slice ---
 const examsSlice = createSlice({
@@ -86,7 +56,6 @@ const examsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch exams
       .addCase(fetchExams.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -99,30 +68,10 @@ const examsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      // Create exam
-      .addCase(createExam.pending, (state) => {
-        state.error = null;
-      })
       .addCase(createExam.fulfilled, (state, action) => {
         state.exams.push(action.payload);
       })
       .addCase(createExam.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-
-      // Create question for a specific exam
-      .addCase(createClacbtQuestion.fulfilled, (state, action) => {
-        const { examId, question } = action.payload;
-        const exam = state.exams.find((e) => e.id === examId);
-        if (exam) {
-          exam.clacbt_questions.push(question); // Push the new question into the exam
-        }
-        console.log(exam)
-        console.log(action.payload)
-      })
-
-      .addCase(createClacbtQuestion.rejected, (state, action) => {
         state.error = action.payload;
       });
   },
