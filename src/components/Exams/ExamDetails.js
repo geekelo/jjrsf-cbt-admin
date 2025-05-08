@@ -1,40 +1,39 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Eye, Edit } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Plus } from "lucide-react";
 import AnswerModal from "./AnswerModal";
 import EditQuestionModal from "./EditQuestionModal";
+import AddQuestionModal from "../addQuestionModal";
+import { toast } from 'react-toastify';
+import { createClacbtQuestion, fetchClacbtQuestions } from "../../redux/slice/question";
+import { fetchExams } from "../../redux/slice/exam";
 import '../../Stylesheets/Examdetail.css';
 
 const ExamDetails = () => {
-  const { id } = useParams();
+  const { id: examId } = useParams();
+  const dispatch = useDispatch();
   const exams = useSelector((state) => state.exams.exams);
-  const exam = exams.find((e) => e.id === id);   
+  const questions = useSelector((state) => state.questions.questionsByExam[examId]);
+  const exam = exams.find((e) => e.id === examId);
+
+  const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [newAnswer, setNewAnswer] = useState({ option: "", answer_text: "", correct: false });
-  const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [newQuestionData, setNewQuestionData] = useState({ question: '', mark: '' });
 
-  const formatDateTime = (dateTime) => {
-    return new Date(dateTime).toLocaleString("en-US", {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
-  if (!exam) {
-    return <h2>Exam not found</h2>;
-  }
+  useEffect(() => {
+    if (examId) {
+      dispatch(fetchClacbtQuestions(examId)); // Ensure it fetches the questions for this exam
+    }
+  }, [dispatch, examId]);
 
   const openAnswerModal = (question) => {
     setSelectedQuestion(question);
-    setAnswers(question.answers || []); // Default to empty array if undefined
+    setAnswers(question.answers || []);
     setIsAnswerModalOpen(true);
   };
 
@@ -53,70 +52,91 @@ const ExamDetails = () => {
     setSelectedQuestion(null);
   };
 
-  const handleEditChange = (e) => {
-    setSelectedQuestion({ ...selectedQuestion, [e.target.name]: e.target.value });
+  const openAddModal = () => {
+    setNewQuestionData({ question: '', mark: '' });
+    setIsAddModalOpen(true);
   };
 
-  const handleSaveEdit = (e) => {
-    e.preventDefault();
-    setIsEditModalOpen(false);
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
   };
+
+  const handleSaveNewQuestion = (e) => {
+    e.preventDefault();
+    dispatch(createClacbtQuestion({
+      examId: examId,
+      questionData: newQuestionData,
+    }))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchExams());
+        toast.success("Question added successfully!");
+        closeAddModal();
+      })
+      .catch((err) => {
+        toast.error("Failed to add question");
+        console.error(err);
+      });
+  };
+
+  if (!exam) {
+    return <h2>Exam not found</h2>;
+  }
 
   return (
     <div>
       <div className="question-box">
-       <div className="question">
-      Add Question
-    </div>
-    </div>
-   
-    <div className="exams-details">
-   
-      <h2 className="examdetailname">{exam.name}</h2>
-      <p className="examdetailtime">⏳ Duration: {exam.duration} mins</p>
-      <p className="examdetailtime">Start Time: {formatDateTime(exam.start_time)}</p>
-      <p className="examdetailtime">End Time: {formatDateTime(exam.end_time)}</p>
+        <button className="question" onClick={openAddModal}>
+          <Plus size={16} /> Add Question
+        </button>
+      </div>
 
-      <h3>Questions</h3>
-      <ul className="question-list">
-        {exam.clacbt_questions.map((question) => (
-          <li key={question.id} className="question-item">
-            <div>{question.question} (Mark: {question.mark})</div>
-            <div>
-              <Eye className="icon" onClick={() => openAnswerModal(question)} />
-              <Edit className="icon" onClick={() => openEditModal(question)} />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="exams-details">
+        <h2 className="examdetailname">{exam.name}</h2>
+        <p className="examdetailtime">⏳ Duration: {exam.duration} mins</p>
+        <p className="examdetailtime">Start Time: {new Date(exam.start_time).toLocaleString()}</p>
+        <p className="examdetailtime">End Time: {new Date(exam.end_time).toLocaleString()}</p>
 
-      {/* Answer Modal */}
-      <AnswerModal
-        isOpen={isAnswerModalOpen}
-        onClose={closeAnswerModal}
-        question={selectedQuestion}
-        answers={answers}
-        setAnswers={setAnswers}
-        newAnswer={newAnswer}
-        setNewAnswer={setNewAnswer}
-        handleAddAnswer={(e) => {
-          e.preventDefault();
-          if (answers.length < 5) {
-            setAnswers([...answers, { ...newAnswer, id: answers.length + 1 }]);
-            setNewAnswer({ option: "", answer_text: "", correct: false });
-          }
-        }}
-      />
+        <h3>Questions</h3>
+        <ul className="question-list">
+          {questions && questions.map((question) => (
+            <li key={question.id} className="question-item">
+              <div>
+                {question.question} (Mark: {question.mark})
+              </div>
+              <div>
+                <Link to={`/exams/${examId}/questions/${question.id}`}>
+                  <button>View / Edit</button>
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
 
-      {/* Edit Question Modal */}
-      <EditQuestionModal
-        isOpen={isEditModalOpen}
-        onClose={closeEditModal}
-        question={selectedQuestion}
-        handleEditChange={handleEditChange}
-        handleSave={handleSaveEdit}
-      />
-    </div>
+        <AnswerModal
+          isOpen={isAnswerModalOpen}
+          onClose={closeAnswerModal}
+          question={selectedQuestion}
+          answers={answers}
+          setAnswers={setAnswers}
+          newAnswer={newAnswer}
+          setNewAnswer={setNewAnswer}
+        />
+
+        <EditQuestionModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          question={selectedQuestion}
+        />
+
+        <AddQuestionModal
+          isOpen={isAddModalOpen}
+          onClose={closeAddModal}
+          questionData={newQuestionData}
+          setQuestionData={setNewQuestionData}
+          handleSave={handleSaveNewQuestion}
+        />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,294 @@
+/* Overlay covers entire screen with dark transparent background */
+.add-question-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Modal container */
+  .add-question-modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.25s ease-out;
+  }
+  
+  /* Modal title */
+  .add-question-title {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 22px;
+    color: #333333;
+    text-align: center;
+  }
+  
+  /* Labels */
+  .add-question-label {
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 16px;
+    font-weight: 600;
+    color: #333333;
+  }
+  
+  /* Textarea */
+  .add-question-textarea {
+    width: 95%;
+    min-height: 90px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    resize: vertical;
+    font-size: 14px;
+  }
+  
+  /* Input */
+  .add-question-input {
+    width: 95%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+  }
+  
+  /* Action buttons container */
+  .add-question-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  /* Save button */
+  .add-question-save-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #4caf50;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-question-save-btn:hover {
+    background-color: #45a047;
+  }
+  
+  /* Cancel button */
+  .add-question-cancel-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #e0e0e0;
+    color: #333333;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-question-cancel-btn:hover {
+    background-color: #d5d5d5;
+  }
+  /* Container for question detail */
+.question-detail-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question-detail-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form fields for question text and mark */
+textarea, input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Button group styling */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
+button.save-answers {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.save-answers:hover {
+  background-color: #45a049;
+}
+
+/* Answer input fields */
+.answer-fields {
+  margin-top: 20px;
+}
+
+.answer-fields textarea,
+.answer-fields input[type="text"] {
+  width: 48%;
+  margin-right: 4%;
+  margin-bottom: 10px;
+}
+
+.answer-fields select {
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+.question-detail {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.question-detail__title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.question-detail__subtitle {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.question-detail__field {
+  margin-bottom: 16px;
+}
+
+.question-detail__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.question-detail__textarea,
+.question-detail__input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.question-detail__actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.question-detail__button {
+  padding: 8px 16px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.question-detail__button:hover {
+  background-color: #bbb;
+}
+
+.question-detail__button--delete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.question-detail__button--delete:hover {
+  background-color: #e04343;
+}
+
+.question-detail__button--save {
+  margin-top: 16px;
+  background-color: #4caf50;
+  color: white;
+}
+
+.question-detail__button--save:hover {
+  background-color: #449d48;
+}.answer-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.answer-item__label {
+  font-weight: bold;
+  margin-right: 8px;
+  width: 24px;
+  line-height: 32px;
+}
+
+.answer-item__text {
+  flex: 1;
+  min-height: 40px;
+  margin-right: 12px;
+  padding: 8px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.answer-item__select {
+  width: 120px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.question-detail__button--save {
+  margin-top: 16px;
+  padding: 10px 16px;
+  background-color: #84cc16; /* lime-600 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.question-detail__button--save:hover {
+  background-color: #65a30d; /* darker lime-700 */
+}
+
+  
+  /* Optional fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

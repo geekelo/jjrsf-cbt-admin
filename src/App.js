@@ -12,7 +12,7 @@ import Login from "./components/Basics/Login";
 import Footer from "./components/Basics/Footer";
 import Layout from "./components/Basics/Layout";
 import UserProfile from "./components/Exams/User";
-
+import QuestionDetail from "./components/Exams/QuestionDetail";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [candidates, setCandidates] = useState([
@@ -57,6 +57,10 @@ function App() {
                   isLoggedIn ? <ExamDetails /> : <Navigate to="/login" />
                 }
               />
+              <Route path="/exams/:id" element={<ExamDetails />} />
+      
+<Route path="/exams/:examId/questions/:questionId" element={<QuestionDetail />} />
+
 
               <Route
                 path="/user"

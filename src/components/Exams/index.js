@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ExamForm from "./ExamForm";
 import "../../Stylesheets/Exams.css";
-import { fetchExams } from "../../redux/slice";
+import { fetchExams } from "../../redux/slice/exam";
 
 const formatDateTime = (dateTime) => {
   return new Date(dateTime).toLocaleString("en-US", {
