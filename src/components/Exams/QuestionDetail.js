@@ -68,13 +68,15 @@ const QuestionDetail = () => {
 
   const handleDeleteQuestion = () => {
     if (window.confirm("Are you sure you want to delete this question?")) {
-      dispatch(deleteClacbtQuestion({ examId, questionId }))
+  const res =    dispatch(deleteClacbtQuestion({ examId, questionId }))
         .unwrap()
         .then(() => {
           toast.success("Question deleted!");
           navigate(`/exam/${examId}`);
         })
         .catch(() => toast.error("Failed to delete question."));
+        
+    
     }
   };
 
