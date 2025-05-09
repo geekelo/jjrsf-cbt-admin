@@ -1,43 +1,68 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import "../../Stylesheets/User.css";
 import { Mail, Edit, Trash } from "lucide-react";
 import AddCandidateModal from "./addModal";
 import EditCandidateModal from "./editModal";
-import { addCandidate, deleteCandidate, fetchCandidates } from "../../redux/slice/candidate";
+import {
+  addCandidate,
+  deleteCandidate,
+  fetchCandidates,
+  editCandidate,
+} from "../../redux/slice/candidate";
 
 const UserProfile = () => {
   const { id: clacbt_exam_id } = useParams(); // Get the clacbt_exam_id from the URL
   const dispatch = useDispatch();
-  const { candidates, loading, error } = useSelector((state) => state.clacbtCandidates); // Access candidates state
+  const { candidates, loading, error } = useSelector(
+    (state) => state.clacbtCandidates
+  ); // Access candidates state
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [editCandidate, setEditCandidate] = useState(null); // For storing the candidate to edit
+  const [editCandidateData, setEditCandidateData] = useState(null); // For storing the candidate to edit
 
   // Fetch candidates when component mounts
   useEffect(() => {
-   const res =  dispatch(fetchCandidates(clacbt_exam_id));
-   console.log(res)
+    dispatch(fetchCandidates(clacbt_exam_id));
   }, [dispatch, clacbt_exam_id]);
-console.log(candidates)
-  const handleDeleteCandidate = (email) => {
-    dispatch(deleteCandidate({ clacbt_exam_id, email }));
+
+  const handleDeleteCandidate = (id) => {
+    dispatch(deleteCandidate({ clacbt_exam_id, id }))
+      .then(() => {
+        toast.success("Candidate deleted successfully!");
+      })
+      .catch((err) => {
+        toast.error(`Error deleting candidate: ${err.message}`);
+      });
   };
 
-  const handleEditCandidate = (candidate) => {
-    setEditCandidate(candidate);
-    setEditModalOpen(true);
+  const handleEditCandidate = (clacbt_exam_id, id, candidateData) => {
+    dispatch(editCandidate({ clacbt_exam_id, id, candidateData }))
+      .then(() => {
+        toast.success("Candidate updated successfully!");
+      })
+      .catch((err) => {
+        toast.error(`Error updating candidate: ${err.message}`);
+      });
   };
 
   const handleAddCandidate = (candidateData) => {
-    dispatch(addCandidate({ clacbt_exam_id, candidateData }));
+    dispatch(addCandidate({ clacbt_exam_id, candidateData }))
+      .then(() => {
+        toast.success("Candidate added successfully!");
+      })
+      .catch((err) => {
+        toast.error(`Error adding candidate: ${err.message}`);
+      });
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+  if (error)
+    return <p>Error: {error.message || "An unknown error occurred"}</p>; 
+  
   return (
     <div className="profile-container">
       <div className="candidateadd">
@@ -63,13 +88,16 @@ console.log(candidates)
               <div className="candidate-actions">
                 <button
                   className="edit-btn"
-                  onClick={() => handleEditCandidate(candidate)}
+                  onClick={() => {
+                    setEditCandidateData(candidate);
+                    setEditModalOpen(true);
+                  }}
                 >
                   <Edit />
                 </button>
                 <button
                   className="delete-btn"
-                  onClick={() => handleDeleteCandidate(candidate.email)}
+                  onClick={() => handleDeleteCandidate(candidate.id)}
                 >
                   <Trash />
                 </button>
@@ -77,7 +105,9 @@ console.log(candidates)
             </div>
           ))
         ) : (
-          <p className="no-candidates">No candidates have taken the exam yet.</p>
+          <p className="no-candidates">
+            No candidates have taken the exam yet.
+          </p>
         )}
       </div>
 
@@ -93,8 +123,9 @@ console.log(candidates)
         <EditCandidateModal
           isOpen={isEditModalOpen}
           onClose={() => setEditModalOpen(false)}
-          candidate={editCandidate}
-          onEditCandidate={editCandidate}
+          candidate={editCandidateData}
+          clacbt_exam_id={clacbt_exam_id}
+          onSave={handleEditCandidate} // Pass handleEditCandidate as onSave prop
         />
       )}
     </div>
