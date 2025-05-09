@@ -47,31 +47,46 @@ export const createExam = createAsyncThunk("exams/createExam", async (examData, 
 });
 
 // Update Exam (PUT or PATCH)
-export const updateExam = createAsyncThunk("exams/updateExam", async ({ id, updatedData }, { rejectWithValue }) => {
-  try {
-    const token = getAuthToken();
-    const start_time = new Date(updatedData.start_time).toISOString();
-    const end_time = new Date(updatedData.end_time).toISOString();
+// --- Update Exam Thunk ---
+// Update Exam (PATCH)
+export const updateExam = createAsyncThunk(
+  "exams/updateExam",
+  async (examData, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
 
-    const response = await fetch(`${API_BASE_URL}/clacbt_exams/${id}`, {
-      method: "PUT",  // or "PATCH"
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        clacbt_exam: {
-          name: updatedData.name,
-          duration: parseInt(updatedData.duration),
-          start_time,
-          end_time,
+      const { id, name, duration, start_time, end_time } = examData;
+
+      const startTimeISO = new Date(start_time).toISOString();
+      const endTimeISO = new Date(end_time).toISOString();
+
+      const response = await fetch(`${API_BASE_URL}/clacbt_exams/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      }),
-    });
+        body: JSON.stringify({
+          clacbt_exam: {
+            name,
+            duration: parseInt(duration),
+            start_time: startTimeISO,
+            end_time: endTimeISO,
+          },
+        }),
+      });
 
-    if (!response.ok) throw new Error("Failed to update exam");
-    return await response.json();
-  } catch (err) {
-    return rejectWithValue(err.message);
+      if (!response.ok) throw new Error("Failed to update exam");
+
+      const result = await response.json();
+      console.log("API Response (Updated Exam):", result);
+      return result;
+    } catch (err) {
+      console.error("Update Exam Error:", err.message);
+      return rejectWithValue(err.message);
+    }
   }
-});
+);
 
 // Delete Exam
 export const deleteExam = createAsyncThunk("exams/deleteExam", async (id, { rejectWithValue }) => {
@@ -126,11 +141,17 @@ const examsSlice = createSlice({
       // updateExam
       .addCase(updateExam.fulfilled, (state, action) => {
         const updatedExam = action.payload;
+        console.log("Reducer - Updated Exam from API:", updatedExam);
+      
         const index = state.exams.findIndex((exam) => exam.id === updatedExam.id);
         if (index !== -1) {
+          console.log("Reducer - Replacing exam at index:", index);
           state.exams[index] = updatedExam;
+        } else {
+          console.warn("Reducer - Updated exam not found in local state!");
         }
       })
+      
       .addCase(updateExam.rejected, (state, action) => {
         state.error = action.payload;
       })
