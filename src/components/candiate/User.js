@@ -33,6 +33,7 @@ const UserProfile = () => {
     dispatch(deleteCandidate({ clacbt_exam_id, id }))
       .then(() => {
         toast.success("Candidate deleted successfully!");
+        dispatch(fetchCandidates(clacbt_exam_id)); 
       })
       .catch((err) => {
         toast.error(`Error deleting candidate: ${err.message}`);
@@ -43,6 +44,7 @@ const UserProfile = () => {
     dispatch(editCandidate({ clacbt_exam_id, id, candidateData }))
       .then(() => {
         toast.success("Candidate updated successfully!");
+        dispatch(fetchCandidates(clacbt_exam_id)); 
       })
       .catch((err) => {
         toast.error(`Error updating candidate: ${err.message}`);
@@ -53,6 +55,7 @@ const UserProfile = () => {
     dispatch(addCandidate({ clacbt_exam_id, candidateData }))
       .then(() => {
         toast.success("Candidate added successfully!");
+        dispatch(fetchCandidates(clacbt_exam_id)); 
       })
       .catch((err) => {
         toast.error(`Error adding candidate: ${err.message}`);
