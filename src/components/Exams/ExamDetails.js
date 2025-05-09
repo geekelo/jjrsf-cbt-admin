@@ -82,6 +82,8 @@ const ExamDetails = () => {
   if (!exam) {
     return <h2>Exam not found</h2>;
   }
+  console.log(questions)
+  const totalQuestions = questions ? questions.length : 0;
 
   return (
     <div>
@@ -98,6 +100,8 @@ const ExamDetails = () => {
         <p className="examdetailtime">End Time: {new Date(exam.end_time).toLocaleString()}</p>
 
         <h3>Questions</h3>
+        <p className="total-questions">📝 Total Questions: {questions ? questions.length : 0}</p>
+
         <ul className="question-list">
           {questions && questions.map((question) => (
             <li key={question.id} className="question-item">
