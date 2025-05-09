@@ -144,12 +144,13 @@ const CandidatesSlice = createSlice({
         state.loading = true;
       })
       .addCase(deleteCandidate.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.loading = false;
+        const deletedId = action.payload;
         state.candidates = state.candidates.filter(
-          (candidate) => candidate.id !== action.payload.id
+          (candidate) => candidate.id !== deletedId
         );
       })
+      
       .addCase(deleteCandidate.rejected, (state, action) => {
        console.log(action.payload)
         state.loading = false;
