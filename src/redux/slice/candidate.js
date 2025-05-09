@@ -10,11 +10,12 @@ export const fetchCandidates = createAsyncThunk(
     'candidates/fetchCandidates',
     async (clacbt_exam_id, { rejectWithValue }) => {
       try {
+        const token = getAuthToken();
         const response = await axios.get(
-          `${API_BASE_URL}/api/v1/clacbt_exams/${clacbt_exam_id}/clacbt_candidates?exam_id=${clacbt_exam_id}`,
+          `${API_BASE_URL}/clacbt_exams/${clacbt_exam_id}/clacbt_candidates?exam_id=${clacbt_exam_id}`,
           {
             headers: {
-              Authorization: `Bearer ${getAuthToken()}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -30,12 +31,13 @@ export const addCandidate = createAsyncThunk(
   'candidates/addCandidate',
   async ({ clacbt_exam_id, candidateData }, { rejectWithValue }) => {
     try {
+      const token = getAuthToken();
       const response = await axios.post(
-        `${API_BASE_URL}/api/v1/clacbt_exams/${clacbt_exam_id}/clacbt_candidates?exam_id=${clacbt_exam_id}`,
+        `${API_BASE_URL}/clacbt_exams/${clacbt_exam_id}/clacbt_candidates?exam_id=${clacbt_exam_id}`,
         candidateData,
         {
           headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -50,12 +52,13 @@ export const editCandidate = createAsyncThunk(
   'candidates/editCandidate',
   async ({ clacbt_exam_id, id, candidateData }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(
-        `${API_BASE_URL}/api/v1/clacbt_exams/${clacbt_exam_id}/clacbt_candidates/${id}`,
+      const token = getAuthToken();
+      const response = await axios.patch(
+        `${API_BASE_URL}/clacbt_exams/${clacbt_exam_id}/clacbt_candidates/${id}`,
         candidateData,
         {
           headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -65,25 +68,26 @@ export const editCandidate = createAsyncThunk(
     }
   }
 );
-
 export const deleteCandidate = createAsyncThunk(
   'candidates/deleteCandidate',
   async ({ clacbt_exam_id, id }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(
-        `${API_BASE_URL}/api/v1/clacbt_exams/${clacbt_exam_id}/clacbt_candidates/${id}`,
+      const token = getAuthToken();
+      await axios.delete(
+        `${API_BASE_URL}/clacbt_exams/${clacbt_exam_id}/clacbt_candidates/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      return { id };
+      return id;  // Return just id directly, not { id }
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+
 
 // Slice
 const CandidatesSlice = createSlice({
@@ -140,14 +144,17 @@ const CandidatesSlice = createSlice({
         state.loading = true;
       })
       .addCase(deleteCandidate.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.loading = false;
         state.candidates = state.candidates.filter(
           (candidate) => candidate.id !== action.payload.id
         );
       })
       .addCase(deleteCandidate.rejected, (state, action) => {
+       console.log(action.payload)
         state.loading = false;
         state.error = action.payload;
+        
       });
   },
 });

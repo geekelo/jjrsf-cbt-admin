@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { editCandidate } from '../../redux/slice/candidate';
 
-const EditCandidateModal = ({ isOpen, onClose, candidate, clacbt_exam_id }) => {
+const EditCandidateModal = ({ isOpen, onClose, candidate, clacbt_exam_id, onSave }) => {
   const [score, setScore] = useState('');
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (candidate) {
@@ -18,7 +15,7 @@ const EditCandidateModal = ({ isOpen, onClose, candidate, clacbt_exam_id }) => {
         score: parseInt(score, 10),
       },
     };
-    dispatch(editCandidate({ clacbt_exam_id, id: candidate.id, candidateData }));
+    onSave(clacbt_exam_id, candidate.id, candidateData);  
     onClose();
   };
 
