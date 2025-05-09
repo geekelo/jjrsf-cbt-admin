@@ -18,12 +18,13 @@ export const fetchExams = createAsyncThunk("exams/fetchExams", async (_, { rejec
     return rejectWithValue(err.message);
   }
 });
-
 export const createExam = createAsyncThunk("exams/createExam", async (examData, { rejectWithValue }) => {
   try {
     const token = getAuthToken();
-    const start_time = new Date(`${examData.start_date}T00:00:00`).toISOString();
-    const end_time = new Date(`${examData.end_date}T23:59:59`).toISOString();
+    
+    // Format start and end times
+    const start_time = new Date(examData.start_time).toISOString();  // Ensure date-time format is valid
+    const end_time = new Date(examData.end_time).toISOString();      // Ensure date-time format is valid
 
     const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
       method: "POST",
@@ -44,6 +45,7 @@ export const createExam = createAsyncThunk("exams/createExam", async (examData, 
     return rejectWithValue(err.message);
   }
 });
+
 
 // --- Slice ---
 const examsSlice = createSlice({
