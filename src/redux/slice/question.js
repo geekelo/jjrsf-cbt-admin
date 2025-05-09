@@ -43,7 +43,7 @@ export const updateClacbtQuestion = createAsyncThunk(
     try {
       const token = getAuthToken();
       const response = await axios.patch(
-        `${API_BASE_URL}/clacbt_exams/${examId}/clacbt_questions/${questionId}`,
+        `${API_BASE_URL}/clacbt_exams/${examId}/clacbt_questions/${questionId}/clacbt_answers/:id`,
         { clacbt_question: updatedData },
         { headers: { Authorization: `Bearer ${token}` } }
       );

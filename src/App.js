@@ -11,7 +11,7 @@ import ExamDetails from "./components/Exams/ExamDetails"; // Import ExamDetails
 import Login from "./components/Basics/Login";
 import Footer from "./components/Basics/Footer";
 import Layout from "./components/Basics/Layout";
-import UserProfile from "./components/Exams/User";
+import UserProfile from "./components/candiate/User";
 import QuestionDetail from "./components/Exams/QuestionDetail";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -63,7 +63,7 @@ function App() {
 
 
               <Route
-                path="/user"
+                path="/user/:id"
                 element={
                   isLoggedIn ? (
                     <UserProfile
