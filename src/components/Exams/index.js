@@ -55,7 +55,7 @@ const Exams = () => {
               </p>
             </div>
             <Eye className="view-icon" size={24} onClick={() => navigate(`/exam/${exam.id}`)} />
-            <User2 className="viewuser-icon" size={24} onClick={() => navigate(`/user`)} />
+            <User2 className="viewuser-icon" size={24} onClick={() => navigate(`/user/${exam.id}`)} />
           </li>
         ))}
       </ul>

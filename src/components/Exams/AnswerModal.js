@@ -1,108 +1,71 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Modal from "react-modal";
 import "../../Stylesheets/Answermodal.css";
 
-Modal.setAppElement("#root");
+const AnswerModal = ({ isOpen, onClose, answerData, handleSave, options }) => {
+  // Early return if modal is not open or answerData is missing
+  if (!isOpen || !answerData || !answerData.clacbt_answer) return null;
 
-const AnswerModal = ({
-  isOpen,
-  onClose,
-  question,
-  answers,
-  setAnswers,
-  newAnswer,
-  setNewAnswer,
-  handleAddAnswer,
-}) => {
-  const isAnswerFormDisabled = useMemo(() => answers.length >= 5, [answers]);
+  const { option, answer_text, correct } = answerData.clacbt_answer;
 
-  if (!question) return null;
-
-  const handleAnswerChange = (e, index) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[index][e.target.name] =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setAnswers(updatedAnswers);
+  const handleAnswerChange = (e) => {
+    const newAnswer = { ...answerData };
+    newAnswer.clacbt_answer.answer_text = e.target.value;
+    handleSave(newAnswer);
   };
 
-  const handleNewAnswerChange = (e) => {
-    setNewAnswer({ ...newAnswer, [e.target.name]: e.target.value });
+  const handleOptionChange = (e) => {
+    const newAnswer = { ...answerData };
+    newAnswer.clacbt_answer.option = e.target.value;
+    handleSave(newAnswer);
   };
+
+  const handleCorrectChange = () => {
+    const newAnswer = { ...answerData };
+    newAnswer.clacbt_answer.correct = !correct;
+    handleSave(newAnswer);
+  };
+
+  // Dynamically generate option elements (useMemo is always called)
+  const optionElements = () => {
+    return options.map((opt, index) => (
+      <option key={index} value={opt}>
+        {opt}
+      </option>
+    ));
+  } // Re-run memoization when 'options' changes
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} className="customOverlay">
-      <div className="customModal">
-        <div className="modal-header">
-          <h2>{question.question}</h2>
-          <button className="close-button" onClick={onClose}>
-            &times;
-          </button>
+    <div className="answer-modal">
+      <div className="answer-modal__content">
+        <button className="answer-modal__close" onClick={onClose}>X</button>
+        <div className="answer-modal__form-group">
+          <label className="answer-modal__label">Option:</label>
+          <select className="answer-modal__select" value={option} onChange={handleOptionChange}>
+            {optionElements} {/* Render dynamic options here */}
+          </select>
         </div>
-        <ul className="answer-list">
-          {answers.map((answer, index) => (
-            <li key={index}>
-              <input
-                type="text"
-                name="option"
-                value={answer.option}
-                onChange={(e) => handleAnswerChange(e, index)}
-                placeholder="Option"
-              />
-              <input
-                type="text"
-                name="answer_text"
-                value={answer.answer_text}
-                onChange={(e) => handleAnswerChange(e, index)}
-                placeholder="Answer Text"
-              />
-              <label>
-                <input
-                  type="checkbox"
-                  name="correct"
-                  checked={answer.correct}
-                  onChange={(e) => handleAnswerChange(e, index)}
-                />
-                Correct
-              </label>
-            </li>
-          ))}
-        </ul>
-
-        <form className="add-answer-form" onSubmit={handleAddAnswer}>
+        <div className="answer-modal__form-group">
+          <label className="answer-modal__label">Answer Text:</label>
           <input
+            className="answer-modal__input"
             type="text"
-            name="option"
-            placeholder="Option"
-            value={newAnswer.option}
-            onChange={handleNewAnswerChange}
-            disabled={isAnswerFormDisabled}
+            value={answer_text}
+            onChange={handleAnswerChange}
           />
+        </div>
+        <div className="answer-modal__form-group">
+          <label className="answer-modal__label">Correct Answer:</label>
           <input
-            type="text"
-            name="answer_text"
-            placeholder="Answer Text"
-            value={newAnswer.answer_text}
-            onChange={handleNewAnswerChange}
-            disabled={isAnswerFormDisabled}
+            className="answer-modal__checkbox"
+            type="checkbox"
+            checked={correct}
+            onChange={handleCorrectChange}
           />
-          <label>
-            <input
-              type="checkbox"
-              name="correct"
-              checked={newAnswer.correct}
-              onChange={(e) =>
-                setNewAnswer({ ...newAnswer, correct: e.target.checked })
-              }
-              disabled={isAnswerFormDisabled}
-            />
-            Correct
-          </label>
-          <button type="submit" disabled={isAnswerFormDisabled}>
-            Add Answer
-          </button>
-        </form>
+        </div>
+        <button className="answer-modal__save-button" onClick={() => handleSave(answerData)}>Save Answer</button>
       </div>
-    </Modal>
+    </div>
   );
 };
 

@@ -9,6 +9,12 @@ import {
 } from "../../redux/slice/question";
 import EditQuestionModal from "./EditQuestionModal";
 import "../../Stylesheets/question.css";
+import {
+  fetchAnswers,
+  createAnswer,
+  updateAnswer,
+} from "../../redux/slice/answer";
+import CreateAnswerModal from "./createanswer";
 
 const QuestionDetail = () => {
   const { examId, questionId } = useParams();
@@ -20,36 +26,36 @@ const QuestionDetail = () => {
     return exam ? exam.clacbt_questions : [];
   });
 
+  const answers = useSelector((state) =>
+    state.answers.answers.filter((a) => a.clacbt_question_id === questionId)
+  );
+
   const question = questions.find((q) => q.id === questionId);
 
   const [questionText, setQuestionText] = useState("");
   const [mark, setMark] = useState("");
-  const [answers, setAnswers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editedQuestion, setEditedQuestion] = useState({
     question: "",
     mark: "",
   });
-
+  const [editingAnswerId, setEditingAnswerId] = useState(null);
+  const [editedAnswerData, setEditedAnswerData] = useState({
+    answer_text: "",
+    correct: false,
+  });
+  
   useEffect(() => {
-    if (!question) {
-      dispatch(fetchClacbtQuestions(examId));
+    if (questionId) {
+      dispatch(fetchAnswers({ questionId }));
     }
-  }, [dispatch, examId, question]);
+  }, [dispatch, questionId]);
 
   useEffect(() => {
     if (question) {
       setQuestionText(question.question);
       setMark(question.mark);
-
-      const filledAnswers = Array.isArray(question.answers)
-        ? [...question.answers]
-        : [];
-
-      while (filledAnswers.length < 5) {
-        filledAnswers.push({ option: "", answer_text: "", correct: false });
-      }
-      setAnswers(filledAnswers.slice(0, 5));
     }
   }, [question]);
 
@@ -68,39 +74,22 @@ const QuestionDetail = () => {
 
   const handleDeleteQuestion = () => {
     if (window.confirm("Are you sure you want to delete this question?")) {
-  const res =    dispatch(deleteClacbtQuestion({ examId, questionId }))
+      dispatch(deleteClacbtQuestion({ examId, questionId }))
         .unwrap()
         .then(() => {
           toast.success("Question deleted!");
           navigate(`/exam/${examId}`);
         })
         .catch(() => toast.error("Failed to delete question."));
-        
-    
     }
   };
 
-  const handleAnswerChange = (index, field, value) => {
-    const updated = [...answers];
-    updated[index][field] = field === "option" ? value.toUpperCase() : value;
-    setAnswers(updated);
-  };
-
-  const handleCorrectChange = (index, value) => {
-    const updated = [...answers];
-    updated[index].correct = value === "correct";
-    setAnswers(updated);
-  };
-
-  const handleSaveAnswers = () => {
-    const updatedData = { answers_attributes: answers };
-    dispatch(updateClacbtQuestion({ examId, questionId, updatedData }))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchClacbtQuestions(examId));
-        toast.success("Answers updated!");
-      })
-      .catch(() => toast.error("Failed to update answers."));
+  const openEditAnswer = (answer) => {
+    setEditingAnswerId(answer.id);
+    setEditedAnswerData({
+      answer_text: answer.answer_text,
+      correct: answer.correct,
+    });
   };
 
   const openEditModal = () => {
@@ -112,27 +101,95 @@ const QuestionDetail = () => {
     setIsModalOpen(false);
   };
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedQuestion({ ...editedQuestion, [name]: value });
+  const openCreateAnswerModal = () => {
+    setIsCreateModalOpen(true);
   };
 
-  const handleModalSave = (e) => {
-    e.preventDefault();
-    const updatedData = {
-      question: editedQuestion.question,
-      mark: editedQuestion.mark,
+  const closeCreateAnswerModal = () => {
+    setIsCreateModalOpen(false);
+  };
+  const handleCreateAnswer = ({ option, answerText, correct }) => {
+    const trimmedOption = option.trim().toUpperCase(); 
+    const trimmedAnswerText = answerText.trim();
+
+    if (!trimmedOption || !/^[A-E]$/.test(trimmedOption)) {
+      toast.error("Option must be a letter between A and E.");
+      return;
+    }
+
+    const existingAnswer = answers.find(
+      (a) => a.option.toUpperCase() === trimmedOption
+    );
+
+    const answerData = {
+      clacbt_answer: {
+        option: trimmedOption,
+        answer_text: trimmedAnswerText,
+        correct,
+      },
     };
-    dispatch(updateClacbtQuestion({ examId, questionId, updatedData }))
+
+    if (existingAnswer) {
+      dispatch(
+        updateAnswer({
+          examId,
+          questionId,
+          answerId: existingAnswer.id,
+          answerData,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          toast.success(`Answer option ${trimmedOption} updated!`);
+          dispatch(fetchAnswers({ questionId }));
+          setIsCreateModalOpen(false);
+        })
+        .catch(() => toast.error("Failed to update answer."));
+    } else {
+      dispatch(createAnswer({ examId, questionId, answerData }))
+        .unwrap()
+        .then(() => {
+          toast.success(`Answer option ${trimmedOption} created!`);
+          dispatch(fetchAnswers({ questionId }));
+          setIsCreateModalOpen(false);
+        })
+        .catch(() => toast.error("Failed to create answer."));
+    }
+  };
+
+  const handleSaveAnswer = (answerId) => {
+    const answerToUpdate = answers.find((a) => a.id === answerId);
+    if (!answerToUpdate) {
+      toast.error("Answer not found.");
+      return;
+    }
+    const answerData = {
+      clacbt_answer: {
+        option: answerToUpdate.option, 
+        answer_text: editedAnswerData.answer_text.trim(),
+        correct: editedAnswerData.correct,
+      },
+    };
+
+     dispatch(
+      updateAnswer({
+        examId,
+        questionId,
+        answerId: answerToUpdate.id,
+        answerData,
+      })
+    )
       .unwrap()
       .then(() => {
-        dispatch(fetchClacbtQuestions(examId));
-        toast.success("Question updated!");
-        setQuestionText(editedQuestion.question);
-        setMark(editedQuestion.mark);
-        closeEditModal();
+        toast.success("Answer updated!");
+        dispatch(fetchAnswers({ questionId }));
+        setEditingAnswerId(null);
       })
-      .catch(() => toast.error("Failed to update question."));
+      .catch(() => toast.error("Failed to update answer."));
+  };
+
+  const cancelEditAnswer = () => {
+    setEditingAnswerId(null);
   };
 
   return (
@@ -169,6 +226,12 @@ const QuestionDetail = () => {
         >
           Delete Question
         </button>
+        <button
+          className="question-detail__button question-detail__button--create-answer"
+          onClick={openCreateAnswerModal}
+        >
+          Create New Answer
+        </button>
       </div>
 
       {answers.length > 0 && (
@@ -176,48 +239,87 @@ const QuestionDetail = () => {
           <h3 className="question-detail__subtitle">Answers (Options)</h3>
 
           {answers.map((answer, index) => (
-            <div key={index} className="answer-item">
+            <div key={answer.id} className="answer-item">
               <label className="answer-item__label">
                 {String.fromCharCode(65 + index)}.
               </label>
 
-              <textarea
-                className="answer-item__text"
-                rows={2}
-                value={answer.answer_text}
-                onChange={(e) =>
-                  handleAnswerChange(index, "answer_text", e.target.value)
-                }
-                placeholder="Answer text"
-              />
+              {editingAnswerId === answer.id ? (
+                <>
+                  <textarea
+                    className="answer-item__text"
+                    rows={2}
+                    value={editedAnswerData.answer_text}
+                    onChange={(e) =>
+                      setEditedAnswerData({
+                        ...editedAnswerData,
+                        answer_text: e.target.value,
+                      })
+                    }
+                  />
 
-              <select
-                className="answer-item__select"
-                value={answer.correct ? "correct" : "incorrect"}
-                onChange={(e) => handleCorrectChange(index, e.target.value)}
-              >
-                <option value="correct">Correct</option>
-                <option value="incorrect">Incorrect</option>
-              </select>
+                  <select
+                    className="answer-item__select"
+                    value={editedAnswerData.correct ? "correct" : "incorrect"}
+                    onChange={(e) =>
+                      setEditedAnswerData({
+                        ...editedAnswerData,
+                        correct: e.target.value === "correct",
+                      })
+                    }
+                  >
+                    <option value="correct">Correct</option>
+                    <option value="incorrect">Incorrect</option>
+                  </select>
+
+                  <button onClick={() => handleSaveAnswer(answer.id)}>
+                    Save
+                  </button>
+                  <button onClick={cancelEditAnswer}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <textarea
+                    className="answer-item__text"
+                    rows={2}
+                    value={answer.answer_text}
+                    readOnly
+                  />
+
+                  <select
+                    className="answer-item__select"
+                    value={answer.correct ? "correct" : "incorrect"}
+                    disabled
+                  >
+                    <option value="correct">Correct</option>
+                    <option value="incorrect">Incorrect</option>
+                  </select>
+
+                  <button onClick={() => openEditAnswer(answer)}>Edit</button>
+                </>
+              )}
             </div>
           ))}
-
-          <button
-            className="question-detail__button question-detail__button--save"
-            onClick={handleSaveAnswers}
-          >
-            Save Answers
-          </button>
         </>
       )}
 
-      {/* Modal */}
+      {/* Edit Question Modal */}
       <EditQuestionModal
         isOpen={isModalOpen}
         onClose={closeEditModal}
         editedQuestion={editedQuestion}
-        handleEditChange={handleEditChange}
-        handleSave={handleModalSave}
+        handleEditChange={(e) => {
+          const { name, value } = e.target;
+          setEditedQuestion({ ...editedQuestion, [name]: value });
+        }}
+        handleSave={handleSaveQuestion}
+      />
+
+      {/* Create Answer Modal */}
+      <CreateAnswerModal
+        isOpen={isCreateModalOpen}
+        onClose={closeCreateAnswerModal}
+        onSave={handleCreateAnswer}
       />
     </div>
   );
