@@ -17,6 +17,12 @@ body {
     text-align: center;
   }
   
+  .candidate-count {
+    font-size: 0.9rem;
+    color: #555;
+    margin-left: 5px;
+  }
+  
   /* Headings */
   .profile-container h2, h3 {
     color: #2c3e50;

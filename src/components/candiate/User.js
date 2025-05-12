@@ -69,11 +69,16 @@ const UserProfile = () => {
   return (
     <div className="profile-container">
       <div className="candidateadd">
-        <h2>Candidates</h2>
-        <button className="add-btn" onClick={() => setAddModalOpen(true)}>
-          + Add Candidate
-        </button>
-      </div>
+  <h2>
+    Candidates {candidates.length > 0 && (
+      <span className="candidate-count">({candidates.length})</span>
+    )}
+  </h2>
+  <button className="add-btn" onClick={() => setAddModalOpen(true)}>
+    + Add Candidate
+  </button>
+</div>
+
 
       <div className="candidates-list">
         {candidates.length > 0 ? (
