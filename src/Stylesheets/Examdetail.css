@@ -1,100 +1,344 @@
-/* Base styles for all devices */
-.exams-details {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin:  auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.question-list {
-    width: 100%;
-}
-
-.examdetailname {
-    color: #131313;
-    margin: 0;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.examdetailtime {
-    color: #131313;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    padding: 6px 0;
-}
-
-.exam-details h3 {
-    color: #131313;
-}
-
-.question-item {
-    background-color: #fff;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
+/* Exam Details Layout */
+.exam-details-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  /* Exam Header */
+  .exam-details-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.icon {
-    cursor: pointer;
-    margin-left: 10px;
-    color: #888;
-    transition: color 0.3s;
-}
-
-.icon:hover {
-    color: #333;
-}
-
-
-/* Responsive styles */
-
-/* For devices with a maximum width of 768px (e.g., tablets in portrait mode) */
-@media only screen and (max-width: 768px) {
-    .examdetailname {
-        font-size: 24px;
-    }
-
-    .examdetailtime {
-        font-size: 18px;
-    }
-
-   
-
+    margin-bottom: 24px;
+  }
   
-}
-
-/* For devices with a maximum width of 480px (e.g., smartphones) */
-@media only screen and (max-width: 480px) {
-    .exams-details {
-        padding: 15px;
-        margin: 20px auto;
+  .exam-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #442e79;
+    margin: 0;
+  }
+  
+  .add-question-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background: #442e79;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(68, 46, 121, 0.2);
+  }
+  
+  .add-question-btn:hover {
+    background: #331e5e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(68, 46, 121, 0.3);
+  }
+  
+  /* Exam Info Card */
+  .exam-info-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .exam-info-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .exam-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .info-icon {
+    color: #442e79;
+    margin-top: 2px;
+  }
+  
+  .info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .info-label {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .info-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* Questions Section */
+  .questions-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #442e79;
+    margin: 0;
+  }
+  
+  .question-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Question List */
+  .question-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Question Card */
+  .question-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    background-color: #f9f7fd;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .question-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .question-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: white;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .question-card-content {
+    padding: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .question-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #442e79;
+    background: rgba(68, 46, 121, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .question-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .question-mark {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Card Menu */
+  .card-menu {
+    position: relative;
+  }
+  
+  .card-menu-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .card-menu-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #442e79;
+  }
+  
+  .card-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    z-index: 10;
+    overflow: hidden;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    text-decoration: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .menu-item:last-child {
+    border-bottom: none;
+  }
+  
+  .menu-item:hover {
+    background-color: #f9f7fd;
+  }
+  
+  .menu-item:nth-child(1):hover {
+    color: #2196f3;
+  }
+  
+  .menu-item:nth-child(2):hover {
+    color: #ff9800;
+  }
+  
+  /* No Questions State */
+  .no-questions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 20px;
+    text-align: center;
+    color: #666;
+  }
+  
+  .add-first-question-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background: #442e79;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .add-first-question-btn:hover {
+    background: #331e5e;
+  }
+  
+  /* Exam Not Found */
+  .exam-not-found {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 16px;
+    color: #442e79;
+    background-color: rgba(68, 46, 121, 0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  
+  .back-link:hover {
+    background-color: rgba(68, 46, 121, 0.2);
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .exam-details-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
     }
-
-    .examdetailname {
-        font-size: 20px;
+    
+    .exam-title {
+      font-size: 24px;
     }
-
-    .examdetailtime {
-        font-size: 16px;
+    
+    .add-question-btn {
+      width: 100%;
+      justify-content: center;
     }
-
-    .question-item {
-        padding: 10px;
-        font-size: 12px;
+    
+    .exam-info-content {
+      grid-template-columns: 1fr;
     }
-
-
-   
-}
+  }
+  
+  @media (max-width: 480px) {
+    .exam-details-container {
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .exam-title {
+      font-size: 22px;
+    }
+    
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }

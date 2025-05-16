@@ -15,9 +15,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       </div>
 
       <ul className="nav-links">
-        <li>
+        <li className="nav-help">
           <Link to="/help">
-            Help <HelpCircle size={32} />
+          <HelpCircle size={22} />   Help 
           </Link>
         </li>
 

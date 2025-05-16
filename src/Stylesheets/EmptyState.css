@@ -1,0 +1,10 @@
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    background-color: #f9f7fd;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+  

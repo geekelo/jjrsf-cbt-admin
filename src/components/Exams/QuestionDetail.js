@@ -15,6 +15,7 @@ import {
   updateAnswer,
 } from "../../redux/slice/answer";
 import CreateAnswerModal from "./createanswer";
+import { ArrowLeft, Edit, Trash, PlusCircle, Check, X, Award, Save, ChevronLeft } from "lucide-react";
 
 const QuestionDetail = () => {
   const { examId, questionId } = useParams();
@@ -59,7 +60,14 @@ const QuestionDetail = () => {
     }
   }, [question]);
 
-  if (!question) return <p>Loading question...</p>;
+  if (!question) {
+    return (
+      <div className="question-detail-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading question...</p>
+      </div>
+    );
+  }
 
   const handleSaveQuestion = () => {
     const updatedData = { question: questionText, mark };
@@ -108,6 +116,7 @@ const QuestionDetail = () => {
   const closeCreateAnswerModal = () => {
     setIsCreateModalOpen(false);
   };
+  
   const handleCreateAnswer = ({ option, answerText, correct }) => {
     const trimmedOption = option.trim().toUpperCase(); 
     const trimmedAnswerText = answerText.trim();
@@ -193,115 +202,158 @@ const QuestionDetail = () => {
   };
 
   return (
-    <div className="question-detail">
-      <h2 className="question-detail__title">Question Detail</h2>
-
-      <div className="question-detail__field">
-        <label className="question-detail__label">Question Text:</label>
-        <textarea
-          className="question-detail__textarea"
-          rows={4}
-          value={questionText}
-          readOnly
-        />
-      </div>
-
-      <div className="question-detail__field">
-        <label className="question-detail__label">Mark:</label>
-        <input
-          className="question-detail__input"
-          type="number"
-          value={mark}
-          readOnly
-        />
-      </div>
-
-      <div className="question-detail__actions">
-        <button className="question-detail__button" onClick={openEditModal}>
-          Edit Question
-        </button>
-        <button
-          className="question-detail__button question-detail__button--delete"
-          onClick={handleDeleteQuestion}
+    <div className="question-detail-container">
+      <div className="question-detail-header">
+        <button 
+          className="back-button" 
+          onClick={() => navigate(`/exam/${examId}`)}
         >
-          Delete Question
+          <ChevronLeft size={20} />
+          <span>Back to Exam</span>
         </button>
-        <button
-          className="question-detail__button question-detail__button--create-answer"
-          onClick={openCreateAnswerModal}
-        >
-          Create New Answer
-        </button>
+        
+        <h2 className="question-detail-title">Question Details</h2>
+      </div>
+      
+      <div className="question-card">
+        <div className="question-card-header">
+          <div className="mark-badge">
+            <Award size={16} />
+            <span>{mark} {mark === '1' ? 'mark' : 'marks'}</span>
+          </div>
+          <div className="question-actions">
+            <button 
+              className="action-button edit-button" 
+              onClick={openEditModal}
+            >
+              <Edit size={16} />
+              <span>Edit</span>
+            </button>
+            <button 
+              className="action-button delete-button" 
+              onClick={handleDeleteQuestion}
+            >
+              <Trash size={16} />
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+        
+        <div className="question-content">
+          <h3 className="content-title">Question</h3>
+          <div className="question-text">{questionText}</div>
+        </div>
       </div>
 
-      {answers.length > 0 && (
-        <>
-          <h3 className="question-detail__subtitle">Answers (Options)</h3>
+      <div className="answers-container">
+        <div className="answers-header">
+          <h3 className="answers-title">Answer Options</h3>
+          <button 
+            className="add-answer-button" 
+            onClick={openCreateAnswerModal}
+          >
+            <PlusCircle size={16} />
+            <span>Add Answer</span>
+          </button>
+        </div>
 
-          {answers.map((answer, index) => (
-            <div key={answer.id} className="answer-item">
-              <label className="answer-item__label">
-                {String.fromCharCode(65 + index)}.
-              </label>
+        {answers.length > 0 ? (
+          <div className="answers-list">
+            {answers.map((answer, index) => (
+              <div 
+                key={answer.id} 
+                className={`answer-card ${answer.correct ? 'correct-answer' : ''}`}
+              >
+                <div className="answer-card-header">
+                  <div className="option-badge">
+                    Option {answer.option || String.fromCharCode(65 + index)}
+                  </div>
+                  {answer.correct && (
+                    <div className="correct-badge">
+                      <Check size={14} />
+                      <span>Correct</span>
+                    </div>
+                  )}
+                </div>
 
-              {editingAnswerId === answer.id ? (
-                <>
-                  <textarea
-                    className="answer-item__text"
-                    rows={2}
-                    value={editedAnswerData.answer_text}
-                    onChange={(e) =>
-                      setEditedAnswerData({
-                        ...editedAnswerData,
-                        answer_text: e.target.value,
-                      })
-                    }
-                  />
+                {editingAnswerId === answer.id ? (
+                  <div className="edit-answer-form">
+                    <textarea
+                      className="answer-textarea"
+                      rows={3}
+                      value={editedAnswerData.answer_text}
+                      onChange={(e) =>
+                        setEditedAnswerData({
+                          ...editedAnswerData,
+                          answer_text: e.target.value,
+                        })
+                      }
+                      placeholder="Enter answer text"
+                    />
 
-                  <select
-                    className="answer-item__select"
-                    value={editedAnswerData.correct ? "correct" : "incorrect"}
-                    onChange={(e) =>
-                      setEditedAnswerData({
-                        ...editedAnswerData,
-                        correct: e.target.value === "correct",
-                      })
-                    }
-                  >
-                    <option value="correct">Correct</option>
-                    <option value="incorrect">Incorrect</option>
-                  </select>
-
-                  <button onClick={() => handleSaveAnswer(answer.id)}>
-                    Save
-                  </button>
-                  <button onClick={cancelEditAnswer}>Cancel</button>
-                </>
-              ) : (
-                <>
-                  <textarea
-                    className="answer-item__text"
-                    rows={2}
-                    value={answer.answer_text}
-                    readOnly
-                  />
-
-                  <select
-                    className="answer-item__select"
-                    value={answer.correct ? "correct" : "incorrect"}
-                    disabled
-                  >
-                    <option value="correct">Correct</option>
-                    <option value="incorrect">Incorrect</option>
-                  </select>
-
-                  <button onClick={() => openEditAnswer(answer)}>Edit</button>
-                </>
-              )}
-            </div>
-          ))}
-        </>
-      )}
+                    <div className="answer-form-actions">
+                      <div className="correct-toggle">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={editedAnswerData.correct}
+                            onChange={(e) =>
+                              setEditedAnswerData({
+                                ...editedAnswerData,
+                                correct: e.target.checked,
+                              })
+                            }
+                          />
+                          <span>Mark as correct</span>
+                        </label>
+                      </div>
+                      
+                      <div className="form-buttons">
+                        <button 
+                          className="save-button"
+                          onClick={() => handleSaveAnswer(answer.id)}
+                        >
+                          <Save size={16} />
+                          <span>Save</span>
+                        </button>
+                        <button 
+                          className="cancel-button"
+                          onClick={cancelEditAnswer}
+                        >
+                          <X size={16} />
+                          <span>Cancel</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="answer-content">
+                    <p className="answer-text">{answer.answer_text}</p>
+                    <button
+                      className="edit-answer-button"
+                      onClick={() => openEditAnswer(answer)}
+                    >
+                      <Edit size={16} />
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="no-answers">
+            <p>No answer options added yet.</p>
+            <button 
+              className="add-first-answer" 
+              onClick={openCreateAnswerModal}
+            >
+              <PlusCircle size={16} />
+              <span>Add your first answer option</span>
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Edit Question Modal */}
       <EditQuestionModal
