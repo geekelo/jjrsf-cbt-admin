@@ -286,7 +286,7 @@
 }
 
 .answer-textarea {
-  width: 100%;
+  width: 90%;
   resize: vertical;
   padding: 12px;
   border: 1px solid #ddd;
@@ -441,7 +441,219 @@
     justify-content: center;
   }
 }
+/* Modal styling - ensure this is properly imported */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
+}
 
+.modal-container-add {
+  width: 100%;
+  max-width: 550px;
+  margin: 20px;
+  z-index: 1001; /* Ensure it's above the overlay */
+}
+
+.modal-content-add {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-header-add {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #f9f7fd;
+}
+
+.modal-title-add {
+  font-size: 20px;
+  font-weight: 600;
+  color: #442e79;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #442e79;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #f9f7fd;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.required-indicator {
+  color: #e53935;
+  margin-left: 4px;
+}
+
+.form-input,
+.form-textarea-add {
+  width: 90%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+  background-color: #fff;
+}
+
+.form-textarea-add {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #442e79;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+}
+
+.form-help-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Button styling */
+.cancel-button,
+.save-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #442e79;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #331e5e;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Fix for nested forms - ensure buttons work correctly */
+.modal-footer button {
+  overflow: visible; /* Helps with button rendering in Safari */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .modal-container {
+    width: 90%;
+    margin: 10px;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 @media (max-width: 480px) {
   .question-detail-container {
     padding: 15px;
