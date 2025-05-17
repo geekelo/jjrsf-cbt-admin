@@ -41,6 +41,8 @@ const QuestionDetail = () => {
     question: "",
     mark: "",
   });
+  console.log(editedQuestion);
+  
   const [editingAnswerId, setEditingAnswerId] = useState(null);
   const [editedAnswerData, setEditedAnswerData] = useState({
     answer_text: "",
@@ -70,14 +72,16 @@ const QuestionDetail = () => {
   }
 
   const handleSaveQuestion = () => {
-    const updatedData = { question: questionText, mark };
+    const updatedData = { question: editedQuestion.question, mark: editedQuestion.mark };
     dispatch(updateClacbtQuestion({ examId, questionId, updatedData }))
       .unwrap()
       .then(() => {
         dispatch(fetchClacbtQuestions(examId));
         toast.success("Question updated!");
       })
+
       .catch(() => toast.error("Failed to update question."));
+      closeEditModal()
   };
 
   const handleDeleteQuestion = () => {

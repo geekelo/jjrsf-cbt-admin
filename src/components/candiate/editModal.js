@@ -28,23 +28,32 @@ const EditCandidateModal = ({ isOpen, onClose, candidate, clacbt_exam_id, onSave
     <div className="modal">
       <div className="modal-content">
         <h3>Edit Candidate</h3>
-
+        <div className="form-group add-form">
+        <label>Email:</label>
         <input
           type="email"
           placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
+            <label>Score:</label>
         <input
           type="number"
           placeholder="Enter score"
           value={score}
           onChange={(e) => setScore(e.target.value)}
         />
-
-        <button onClick={handleSave}>Save</button>
-        <button onClick={onClose}>Cancel</button>
+          </div>
+   
+       
+   
+      
+ 
+          <div className="modal-actions">
+          <button  className="save-button" onClick={handleSave}>Save</button>
+          <button   className="cancel-button"  onClick={onClose}>Cancel</button>
+          </div>
+   
       </div>
     </div>
   );

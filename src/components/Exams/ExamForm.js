@@ -170,7 +170,7 @@ const ExamForm = ({ initialData = null, onClose }) => {
             <label className="form-label">Start Date and Time</label>
             <div className="datetime-group">
               <div className="datetime-input">
-                <Calendar size={18} className="input-icon" />
+      
                 <input
                   type="date"
                   name="start_date"
@@ -200,7 +200,7 @@ const ExamForm = ({ initialData = null, onClose }) => {
             <label className="form-label">End Date and Time</label>
             <div className="datetime-group">
               <div className="datetime-input">
-                <Calendar size={18} className="input-icon" />
+              
                 <input
                   type="date"
                   name="end_date"
