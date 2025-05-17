@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { X, Save, Check } from "lucide-react";
 import "../../Stylesheets/Answermodal.css";
+
 const CreateAnswerModal = ({ isOpen, onClose, onSave }) => {
   const [answerText, setAnswerText] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
-  const [option, setOption] = useState(""); 
-
+  const [option, setOption] = useState("");
+  
+  // Available options for the select dropdown
+  const availableOptions = ["A", "B", "C", "D", "E"];
+  
   const handleSave = (e) => {
     e.preventDefault();
     if (answerText.trim() === "" || option.trim() === "") {
@@ -13,73 +18,90 @@ const CreateAnswerModal = ({ isOpen, onClose, onSave }) => {
     }
     onSave({ option, answerText, correct: isCorrect });
     setAnswerText("");
-    setIsCorrect(false); 
-    setOption(""); 
-    onClose(); 
+    setIsCorrect(false);
+    setOption("");
+    onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3 className="modal-header">Create New Answer</h3>
-        <form onSubmit={handleSave} className="modal-form">
-          <div className="modal-field">
-            <label className="create-answer__label">Option (A–E):</label>
-            <input
-              type="text"
-              className="create-answer__input"
-              value={option}
-              maxLength={1}
-              onChange={(e) => {
-                const input = e.target.value.toUpperCase();
-                // Allow only A–E or empty string (so they can delete)
-                if (/^[A-E]?$/.test(input)) {
-                  setOption(input);
-                }
-              }}
-              placeholder="A"
-            />
-          </div>
-
-          <div className="modal-field">
-            <label className="modal-label">Answer Text</label>
-            <textarea
-              className="modal-textarea"
-              value={answerText}
-              onChange={(e) => setAnswerText(e.target.value)}
-              placeholder="Enter your answer"
-              rows={3}
-              required
-            />
-          </div>
-
-          <div className="modal-field">
-            <label className="modal-checkbox-label">
-              <input
-                type="checkbox"
-                checked={isCorrect}
-                onChange={() => setIsCorrect(!isCorrect)}
-                className="modal-checkbox"
-              />
-              Correct Answer
-            </label>
-          </div>
-
-          <div className="modal-actions">
-            <button type="submit" className="modal-btn save-btn">
-              Save Answer
+    <div className="answer-modal-overlay">
+      <div className="answer-modal-container">
+        <div className="answer-modal-content">
+          <div className="answer-modal-header">
+            <h2 className="answer-modal-title">Create New Answer</h2>
+            <button className="answer-modal-close" onClick={onClose}>
+              <X size={20} />
             </button>
-            <button
-              type="button"
-              className="modal-btn close-btn"
+          </div>
+          
+          <div className="answer-modal-body">
+            <form onSubmit={handleSave}>
+              <div className="form-group">
+                <label className="form-label">Select Option</label>
+                <div className="select-wrapper">
+                  <select
+                    className="form-select"
+                    value={option}
+                    onChange={(e) => setOption(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>Choose an option</option>
+                    {availableOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                         {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              
+              <div className="form-group">
+                <label className="form-label">Answer Text</label>
+                <textarea
+                  className="form-textarea"
+                  value={answerText}
+                  onChange={(e) => setAnswerText(e.target.value)}
+                  placeholder="Enter the answer text here..."
+                  rows={4}
+                  required
+                />
+              </div>
+              
+              <div className="form-group checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={isCorrect}
+                    onChange={() => setIsCorrect(!isCorrect)}
+                    className="form-checkbox"
+                  />
+                  <div className="checkbox-text">
+                    <span>Mark as correct answer</span>
+                    <p className="checkbox-help">Select this if this option is the correct answer to the question</p>
+                  </div>
+                </label>
+              </div>
+            </form>
+          </div>
+          
+          <div className="answer-modal-footer">
+            <button 
+              className="cancel-button" 
               onClick={onClose}
             >
-              Close
+              Cancel
+            </button>
+            <button 
+              className="save-button" 
+              onClick={handleSave}
+            >
+              <Save size={16} />
+              <span>Save Answer</span>
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

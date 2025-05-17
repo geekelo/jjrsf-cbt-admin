@@ -13,12 +13,12 @@ import UserProfile from "./components/candiate/User";
 import QuestionDetail from "./components/Exams/QuestionDetail";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken"); // ✅ check localStorage now
-    setIsLoggedIn(!token);
-  }, []);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("authToken"); 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken"); // ✅ check localStorage now
+  //   // setIsLoggedIn(!token);
+  // }, []);
 
   return (
     <Router>
@@ -28,27 +28,27 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={isLoggedIn ? <Exams /> : <Navigate to="/login" replace />}
+                element={token ? <Exams /> : <Navigate to="/login" replace />}
               />
               <Route
                 path="/login"
-                element={<Login setIsLoggedIn={setIsLoggedIn} />}
+                element={<Login  />}
               />
               <Route
                 path="/exam/:id"
-                element={isLoggedIn ? <ExamDetails /> : <Navigate to="/login" replace />}
+                element={token ? <ExamDetails /> : <Navigate to="/login" replace />}
               />
               <Route
                 path="/exams/:id"
-                element={isLoggedIn ? <ExamDetails /> : <Navigate to="/login" replace />}
+                element={token ? <ExamDetails /> : <Navigate to="/login" replace />}
               />
               <Route
                 path="/exams/:examId/questions/:questionId"
-                element={isLoggedIn ? <QuestionDetail /> : <Navigate to="/login" replace />}
+                element={token ? <QuestionDetail /> : <Navigate to="/login" replace />}
               />
               <Route
                 path="/user/:id"
-                element={isLoggedIn ? <UserProfile /> : <Navigate to="/login" replace />}
+                element={token ? <UserProfile /> : <Navigate to="/login" replace />}
               />
             </Routes>
           </main>

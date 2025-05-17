@@ -1,100 +1,422 @@
-/* Modal Overlay */
-.modal-overlay {
+/* Answer Modal Overlay */
+.answer-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
 }
 
-/* Modal Content */
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Modal Header */
-.modal-header {
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Modal Form Field */
-.modal-field {
-  margin-bottom: 15px;
-}
-
-/* Modal Label */
-.modal-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-/* Modal Input */
-.modal-input, .modal-textarea {
+/* Answer Modal Container */
+.answer-modal-container {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  max-width: 520px;
+  outline: none;
 }
 
-/* Modal Textarea */
-.modal-textarea {
-  resize: vertical;
+/* Answer Modal Content */
+.answer-modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-out;
 }
 
-/* Modal Checkbox Label */
-.modal-checkbox-label {
-  display: flex;
-  align-items: center;
-}
-
-/* Modal Checkbox */
-.modal-checkbox {
-  margin-right: 10px;
-}
-
-/* Modal Actions */
-.modal-actions {
+/* Answer Modal Header */
+.answer-modal-header {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #f9f7fd;
 }
 
-/* Modal Button */
-.modal-btn {
-  padding: 10px 20px;
-  cursor: pointer;
+.answer-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #442e79;
+  margin: 0;
+}
+
+.answer-modal-close {
+  background: none;
   border: none;
-  border-radius: 4px;
-  font-size: 1em;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.save-btn {
+.answer-modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #442e79;
+}
+
+/* Answer Modal Body */
+.answer-modal-body {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+  background-color: #fff;
+}
+
+.form-select {
+  height: 46px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #442e79;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  margin-top: 24px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.form-checkbox {
+  margin-top: 2px;
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  accent-color: #442e79;
+}
+
+.checkbox-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-text span {
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+.checkbox-help {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Answer Modal Footer */
+.answer-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #f9f7fd;
+}
+
+.cancel-button,
+.save-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #442e79;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #331e5e;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Option Input Styling */
+.option-input {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-align: center;
+  max-width: 120px;
+}
+
+/* Create Answer Modal Specific Tweaks */
+.answer-modal-container .answer-modal-title {
+  color: #442e79;
+}
+
+.answer-modal-container .save-button {
   background-color: #4CAF50;
-  color: white;
 }
 
-.close-btn {
-  background-color: #f44336;
-  color: white;
+.answer-modal-container .save-button:hover {
+  background-color: #3d8b40;
 }
 
-.save-btn:hover {
-  background-color: #45a049;
+/* Add some spacing before checkbox help text */
+.checkbox-help {
+  margin-top: 5px;
+  font-style: italic;
 }
 
-.close-btn:hover {
-  background-color: #e41e1e;
+/* Add animation for checkbox toggle */
+.form-checkbox {
+  transition: all 0.2s ease;
+}
+
+/* Style placeholder text */
+.form-textarea::placeholder,
+.option-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Focus styles for all inputs */
+.option-input:focus,
+.form-textarea:focus {
+  border-color: #442e79;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+  outline: none;
+}
+/* Select styling enhancements */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #666;
+  pointer-events: none;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.form-select:focus {
+  border-color: #442e79;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+}
+
+.form-select option {
+  padding: 12px;
+  background-color: #fff;
+  color: #333;
+}
+
+.form-select option:first-child {
+  color: #888;
+  font-style: italic;
+}
+
+.form-select option:hover,
+.form-select option:focus {
+  background-color: #f9f7fd;
+}
+
+/* Additional styling for the Create Answer modal */
+.answer-modal-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.answer-modal-content {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Visual feedback when form is valid */
+.form-select:valid,
+.form-textarea:valid {
+  border-color: #4CAF50;
+}
+
+/* Visual feedback when focused */
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #442e79;
+}
+
+/* Enhanced animations */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .form-select {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .select-wrapper::after {
+    right: 12px;
+  }
+}
+/* Mobile optimizations */
+@media (max-width: 600px) {
+  .option-input {
+    max-width: 100%;
+  }
+  
+  .checkbox-label {
+    align-items: flex-start;
+  }
+  
+  .checkbox-text span {
+    font-size: 14px;
+  }
+  
+  .checkbox-help {
+    font-size: 12px;
+  }
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .answer-modal-container {
+    width: 90%;
+    margin: 0 20px;
+  }
+
+  .answer-modal-header {
+    padding: 16px 20px;
+  }
+
+  .answer-modal-body {
+    padding: 20px;
+  }
+
+  .answer-modal-footer {
+    padding: 16px 20px;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+    justify-content: center;
+  }
 }

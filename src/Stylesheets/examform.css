@@ -1,109 +1,263 @@
-/* General Styles */
+/* Exam Form Modal Styles */
+.exam-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.25s ease-out;
+}
 
-  
-  .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1000;
+.exam-modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  max-width: 550px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+.exam-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #f9f7fd;
+}
+
+.exam-modal-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #442e79;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.exam-modal-close {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.exam-modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #442e79;
+}
+
+/* Error message styling */
+.exam-form-error {
+  margin: 15px 24px 0;
+  padding: 12px 16px;
+  background-color: #ffebee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e53935;
+  font-size: 14px;
+}
+
+.exam-form-error svg {
+  flex-shrink: 0;
+}
+
+.exam-form-error p {
+  margin: 0;
+}
+
+/* Form styling */
+.exam-form {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: #442e79;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+}
+
+/* Date and time inputs */
+.datetime-group {
+  display: flex;
+  gap: 12px;
+}
+
+.datetime-input {
+  position: relative;
+  flex: 1;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+}
+
+.date-input,
+.time-input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.date-input:focus,
+.time-input:focus {
+  border-color: #442e79;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(68, 46, 121, 0.1);
+}
+
+/* Form buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.cancel-button,
+.submit-button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.submit-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #442e79;
+  color: white;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.submit-button:hover {
+  background-color: #331e5e;
+}
+
+.submit-button:disabled,
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Placeholder styling */
+.form-input::placeholder,
+.date-input::placeholder,
+.time-input::placeholder {
+  color: #aaa;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .exam-modal-content {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   
-  .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  .exam-modal-header {
+    padding: 16px 20px;
   }
   
-  h3 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+  .exam-modal-title {
+    font-size: 20px;
   }
   
   .exam-form {
-    display: flex;
+    padding: 20px;
+  }
+  
+  .datetime-group {
     flex-direction: column;
-    gap: 15px;
-  }
-  .exam-form label{
-    text-align: start;
+    gap: 10px;
   }
   
-  .exam-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  
+  .cancel-button,
+  .submit-button {
     width: 100%;
-    box-sizing: border-box;
   }
-  
-  .exam-form input:focus {
-    border-color: #3498db;
-    outline: none;
-  }
-  
-  
-  .close-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-   .question-box{
-    display: flex;
-    justify-content: end;
-    align-items: end;
-    margin: 12px 0;
-   }
-  
-  .question{
-    
-  background-color: #3498db;
-    font-size: 20px;
-    font-weight: 700;
-    width: 200px;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-   
-  }
-  .close-btn {
-    background-color: #e74c3c;
-    color: #fff;
-  }
-  
-  .close-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  @media (max-width: 600px) {
-    .modal-content {
-      padding: 15px;
-    }
-  
-    h3 {
-      font-size: 20px;
-    }
-  
-    .exam-form input,
-    .add-exam-btn,
-    .close-btn {
-      font-size: 14px;
-    }
-  }
-  
+}

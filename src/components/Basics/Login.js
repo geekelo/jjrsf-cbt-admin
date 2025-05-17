@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Stylesheets/Login.css";
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -36,7 +36,7 @@ const Login = ({ setIsLoggedIn }) => {
       }
 
       localStorage.setItem("authToken", data.token);
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
 
       navigate("/");
     } catch (err) {

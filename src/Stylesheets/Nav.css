@@ -29,9 +29,11 @@
     align-content: center;
   }
   
-  .nav-links li{
+  .nav-links a{
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
     
   }
   /* Navbar Links */
