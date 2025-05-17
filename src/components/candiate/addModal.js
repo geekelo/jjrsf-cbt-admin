@@ -23,17 +23,21 @@ const AddCandidateModal = ({ isOpen, onClose, onAddCandidate }) => {
       <div className="modal-content">
         <h2>Add Candidate</h2>
         <form onSubmit={handleSubmit}>
-          <label>Email:</label>
-          <input
+        <div className="form-group add-form">
+        <label>Email:</label>
+        <input
             type="email"
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
             placeholder="candidate@example.com"
           />
+          </div>
+        
+      
           <div className="modal-actions">
-            <button type="submit">Add</button>
-            <button type="button" onClick={onClose}>
+            <button      className="save-button" type="submit">Add</button>
+            <button           className="cancel-button"  type="button" onClick={onClose}>
               Cancel
             </button>
           </div>
