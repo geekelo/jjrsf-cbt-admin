@@ -110,7 +110,7 @@ const Exams = () => {
 
       <div className="exam-list">
         {[...exams]
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .sort((a, b) => new Date(b.start_time) - new Date(a.start_time))
           .map((exam) => (
             <div key={exam.id} className="exam-card">
               <div className="exam-card-header">
