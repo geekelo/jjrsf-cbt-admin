@@ -1,7 +1,16 @@
 // src/components/Exams.jsx
 
 import React, { useEffect, useState } from "react";
-import { Eye, Plus, User2, Pencil, Trash, Clock, Calendar, MoreVertical } from "lucide-react";
+import {
+  Eye,
+  Plus,
+  User2,
+  Pencil,
+  Trash,
+  Clock,
+  Calendar,
+  MoreVertical,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -91,105 +100,108 @@ const Exams = () => {
         </button>
       </div>
 
-      {shouldShowLoading && (
-      <Apploader/>
-      )}
-      
+      {shouldShowLoading && <Apploader />}
+
       {error && <div className="error-message">{error}</div>}
 
       {!shouldShowLoading && exams.length === 0 && (
-        <EmptyState message='No exams available. Create your first exam!'/>
-     
+        <EmptyState message="No exams available. Create your first exam!" />
       )}
 
       <div className="exam-list">
-        {exams.map((exam) => (
-          <div key={exam.id} className="exam-card">
-            <div className="exam-card-header">
-              <h3>{exam.name}</h3>
-              <div className="exam-actions">
-                <button 
-                  className="icon-button more-button" 
-                  onClick={() => toggleActionMenu(exam.id)}
-                  title="More Actions"
-                >
-                  <MoreVertical size={20} />
-                </button>
-                
-                {activeMenu === exam.id && (
-                  <div className="action-dropdown">
-                    <button 
-                      className="action-item" 
-                      onClick={() => {
-                        navigate(`/exam/${exam.id}`);
-                        setActiveMenu(null);
-                      }}
-                    >
-                      <Eye size={18} />
-                      <span>View Exam</span>
-                    </button>
-                    <button 
-                      className="action-item" 
-                      onClick={() => {
-                        navigate(`/user/${exam.id}`);
-                        setActiveMenu(null);
-                      }}
-                    >
-                      <User2 size={18} />
-                      <span>View Users</span>
-                    </button>
-                    <button 
-                      className="action-item" 
-                      onClick={() => {
-                        handleEditExam(exam);
-                        setActiveMenu(null);
-                      }}
-                    >
-                      <Pencil size={18} />
-                      <span>Edit Exam</span>
-                    </button>
-                    <button 
-                      className="action-item delete" 
-                      onClick={() => {
-                        handleDelete(exam.id);
-                        setActiveMenu(null);
-                      }}
-                    >
-                      <Trash size={18} />
-                      <span>Delete</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            <div className="exam-card-content">
-              <div className="exam-info">
-                <div className="exam-duration-badge">
-                  <Clock size={16} />
-                  <span>{exam.duration} mins</span>
-                </div>
-                
-                <div className="exam-time-info">
-                  <div className="time-row">
-                    <Calendar size={16} />
-                    <div className="time-details">
-                      <span className="time-label">Start:</span>
-                      <span className="time-value">{formatDateTime(exam.start_time)}</span>
+        {[...exams]
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .map((exam) => (
+            <div key={exam.id} className="exam-card">
+              <div className="exam-card-header">
+                <h3>{exam.name}</h3>
+                <div className="exam-actions">
+                  <button
+                    className="icon-button more-button"
+                    onClick={() => toggleActionMenu(exam.id)}
+                    title="More Actions"
+                  >
+                    <MoreVertical size={20} />
+                  </button>
+
+                  {activeMenu === exam.id && (
+                    <div className="action-dropdown">
+                      <button
+                        className="action-item"
+                        onClick={() => {
+                          navigate(`/exam/${exam.id}`);
+                          setActiveMenu(null);
+                        }}
+                      >
+                        <Eye size={18} />
+                        <span>View Exam</span>
+                      </button>
+                      <button
+                        className="action-item"
+                        onClick={() => {
+                          navigate(`/user/${exam.id}`);
+                          setActiveMenu(null);
+                        }}
+                      >
+                        <User2 size={18} />
+                        <span>View Users</span>
+                      </button>
+                      <button
+                        className="action-item"
+                        onClick={() => {
+                          handleEditExam(exam);
+                          setActiveMenu(null);
+                        }}
+                      >
+                        <Pencil size={18} />
+                        <span>Edit Exam</span>
+                      </button>
+                      <button
+                        className="action-item delete"
+                        onClick={() => {
+                          handleDelete(exam.id);
+                          setActiveMenu(null);
+                        }}
+                      >
+                        <Trash size={18} />
+                        <span>Delete</span>
+                      </button>
                     </div>
-                  </div>
-                  <div className="time-row">
-                    <Calendar size={16} />
-                    <div className="time-details">
-                      <span className="time-label">End:</span>
-                      <span className="time-value">{formatDateTime(exam.end_time)}</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
+
+              <div className="exam-card-content">
+                <div className="exam-info">
+                  <div className="exam-duration-badge">
+                    <Clock size={16} />
+                    <span>{exam.duration} mins</span>
+                  </div>
+
+                  <div className="exam-time-info">
+                    <div className="time-row">
+                      <Calendar size={16} />
+                      <div className="time-details">
+                        <span className="time-label">Start:</span>
+                        <span className="time-value">
+                          {formatDateTime(exam.start_time)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="time-row">
+                      <Calendar size={16} />
+                      <div className="time-details">
+                        <span className="time-label">End:</span>
+                        <span className="time-value">
+                          {formatDateTime(exam.end_time)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {showForm && (
@@ -201,7 +213,9 @@ const Exams = () => {
               onSuccess={() => {
                 // Don't reload exams, just update the Redux store
                 toast.success(
-                  editingExam ? "Exam updated successfully!" : "Exam created successfully!"
+                  editingExam
+                    ? "Exam updated successfully!"
+                    : "Exam created successfully!"
                 );
                 handleCloseForm();
               }}
@@ -211,7 +225,6 @@ const Exams = () => {
       )}
     </div>
   );
- 
 };
 
 export default Exams;
