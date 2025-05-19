@@ -140,17 +140,12 @@ const examsSlice = createSlice({
 
       // updateExam
       .addCase(updateExam.fulfilled, (state, action) => {
-        const updatedExam = action.payload;
-        console.log("Reducer - Updated Exam from API:", updatedExam);
-      
-        const index = state.exams.findIndex((exam) => exam.id === updatedExam.id);
-        if (index !== -1) {
-          console.log("Reducer - Replacing exam at index:", index);
-          state.exams[index] = updatedExam;
-        } else {
-          console.warn("Reducer - Updated exam not found in local state!");
-        }
-      })
+  const updatedExam = action.payload;
+  state.exams = state.exams.map((exam) =>
+    exam.id === updatedExam.id ? updatedExam : exam
+  );
+})
+
       
       .addCase(updateExam.rejected, (state, action) => {
         state.error = action.payload;
