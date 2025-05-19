@@ -1,6 +1,6 @@
 // src/components/Exams.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Eye,
   Plus,
@@ -89,6 +89,13 @@ const Exams = () => {
         });
     }
   };
+
+  const sortedExams = useMemo(() => {
+  return [...exams].sort(
+    (a, b) => new Date(b.start_time) - new Date(a.start_time)
+  );
+}, [exams]);
+
   const shouldShowLoading = loading && !hasLoadedOnce;
   return (
     <div className="exams-container">
@@ -109,9 +116,7 @@ const Exams = () => {
       )}
 
       <div className="exam-list">
-        {[...exams]
-          .sort((a, b) => new Date(b.start_time) - new Date(a.start_time))
-          .map((exam) => (
+        {sortedExams.map((exam) => (
             <div key={exam.id} className="exam-card">
               <div className="exam-card-header">
                 <h3>{exam.name}</h3>
