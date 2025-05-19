@@ -6,45 +6,57 @@ const getAuthToken = () => localStorage.getItem("authToken");
 
 // --- Thunks ---
 // Fetch Exams
-export const fetchExams = createAsyncThunk("exams/fetchExams", async (_, { rejectWithValue }) => {
-  try {
-    const token = getAuthToken();
-    const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) throw new Error("Failed to fetch exams");
-    return await response.json();
-  } catch (err) {
-    return rejectWithValue(err.message);
+export const fetchExams = createAsyncThunk(
+  "exams/fetchExams",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch exams");
+      return await response.json();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-});
+);
 
 // Create Exam
-export const createExam = createAsyncThunk("exams/createExam", async (examData, { rejectWithValue }) => {
-  try {
-    const token = getAuthToken();
-    const start_time = new Date(examData.start_time).toISOString();
-    const end_time = new Date(examData.end_time).toISOString();
+export const createExam = createAsyncThunk(
+  "exams/createExam",
+  async (examData, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const start_time = new Date(examData.start_time).toISOString();
+      const end_time = new Date(examData.end_time).toISOString();
 
-    const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        clacbt_exam: {
-          name: examData.name,
-          duration: parseInt(examData.duration),
-          start_time,
-          end_time,
+      const response = await fetch(`${API_BASE_URL}/clacbt_exams`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      }),
-    });
+        body: JSON.stringify({
+          clacbt_exam: {
+            name: examData.name,
+            duration: parseInt(examData.duration),
+            start_time,
+            end_time,
+          },
+        }),
+      });
 
-    if (!response.ok) throw new Error("Failed to add exam");
-    return await response.json();
-  } catch (err) {
-    return rejectWithValue(err.message);
+      if (!response.ok) throw new Error("Failed to add exam");
+      return await response.json();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-});
+);
 
 // Update Exam (PUT or PATCH)
 // --- Update Exam Thunk ---
@@ -89,21 +101,24 @@ export const updateExam = createAsyncThunk(
 );
 
 // Delete Exam
-export const deleteExam = createAsyncThunk("exams/deleteExam", async (id, { rejectWithValue }) => {
-  try {
-    const token = getAuthToken();
+export const deleteExam = createAsyncThunk(
+  "exams/deleteExam",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
 
-    const response = await fetch(`${API_BASE_URL}/clacbt_exams/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      const response = await fetch(`${API_BASE_URL}/clacbt_exams/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    if (!response.ok) throw new Error("Failed to delete exam");
-    return id;  // Return the deleted exam ID so we can remove it locally
-  } catch (err) {
-    return rejectWithValue(err.message);
+      if (!response.ok) throw new Error("Failed to delete exam");
+      return id; // Return the deleted exam ID so we can remove it locally
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-});
+);
 
 // --- Slice ---
 const examsSlice = createSlice({
@@ -141,17 +156,11 @@ const examsSlice = createSlice({
       // updateExam
       .addCase(updateExam.fulfilled, (state, action) => {
         const updatedExam = action.payload;
-        console.log("Reducer - Updated Exam from API:", updatedExam);
-      
-        const index = state.exams.findIndex((exam) => exam.id === updatedExam.id);
-        if (index !== -1) {
-          console.log("Reducer - Replacing exam at index:", index);
-          state.exams[index] = updatedExam;
-        } else {
-          console.warn("Reducer - Updated exam not found in local state!");
-        }
+        state.exams = state.exams.map((exam) =>
+          exam.id === updatedExam.id ? updatedExam : exam
+        );
       })
-      
+
       .addCase(updateExam.rejected, (state, action) => {
         state.error = action.payload;
       })
