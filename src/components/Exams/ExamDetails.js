@@ -106,7 +106,7 @@ const ExamDetails = () => {
     return (
       <div className="exam-not-found">
         <h2>Exam not found</h2>
-        <Link to="/exams" className="back-link">
+        <Link to="/" className="back-link">
           Return to Exams
         </Link>
       </div>
