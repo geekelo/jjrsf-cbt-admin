@@ -12,7 +12,13 @@
     align-items: center;
     margin-bottom: 24px;
   }
-  
+  .back-arrow {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+  }
   .exam-title {
     font-size: 28px;
     font-weight: 700;

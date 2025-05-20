@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Plus, Clock, Calendar, FileText, Award, Edit, Eye, MoreVertical } from "lucide-react";
+import { Plus, Clock, Calendar, FileText, Award, Edit, Eye, MoreVertical, ArrowRight, ArrowLeft } from "lucide-react";
 import AnswerModal from "./AnswerModal";
 import EditQuestionModal from "./EditQuestionModal";
 import AddQuestionModal from "../addQuestionModal";
@@ -117,6 +117,10 @@ const ExamDetails = () => {
 
   return (
     <div className="exam-details-container">
+      <Link className="back-arrow" to='/'>
+      <ArrowLeft/> Back
+      </Link>
+    
       <div className="exam-details-header">
         <h1 className="exam-title">{exam.name}</h1>
         <button className="add-question-btn" onClick={openAddModal}>
